@@ -427,6 +427,18 @@ textarea,
         color: inherit;
       }
     }
+
+    &.--primary {
+      background: var(--tertiary);
+      color: var(--secondary);
+
+      &:hover,
+      &:focus-visible {
+        background: var(--tertiary-hover, var(--tertiary));
+        color: var(--secondary);
+        box-shadow: 0 2px 8px rgba(var(--tertiary-rgb), 0.35);
+      }
+    }
   }
 
   &__status {

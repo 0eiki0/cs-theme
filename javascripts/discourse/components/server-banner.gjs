@@ -40,6 +40,19 @@ async function requestStatus() {
   }
 }
 
+// Erlaubt https://…, http://…, Forenpfade (/t/…) und nackte Domains (shop.de).
+// Alles andere (z. B. javascript:) wird verworfen.
+function normalizeUrl(value) {
+  const url = typeof value === "string" ? value.trim() : "";
+  if (/^https?:\/\//i.test(url) || /^\/(?!\/)/.test(url)) {
+    return url;
+  }
+  if (/^[a-z0-9-]+(\.[a-z0-9-]+)+([/?#].*)?$/i.test(url)) {
+    return `https://${url}`;
+  }
+  return null;
+}
+
 export default class ServerBanner extends Component {
   @service router;
 
@@ -79,6 +92,18 @@ export default class ServerBanner extends Component {
 
   get rulesUrl() {
     return settings.rules_url;
+  }
+
+  get customButtons() {
+    return (settings.banner_buttons || [])
+      .map((b) => ({
+        label: b?.label,
+        url: normalizeUrl(b?.url),
+        icon: (b?.icon || "").trim(),
+        primary: b?.style === "hervorgehoben",
+        newTab: !!b?.new_tab,
+      }))
+      .filter((b) => b.label && b.url);
   }
 
   get showStatus() {
@@ -242,6 +267,18 @@ export default class ServerBanner extends Component {
                 {{icon "book"}}<span>{{this.rulesLabel}}</span>
               </a>
             {{/if}}
+
+            {{#each this.customButtons as |button|}}
+              <a
+                class="btn cs-banner__btn {{if button.primary '--primary'}}"
+                href={{button.url}}
+                target={{if button.newTab "_blank"}}
+                rel={{if button.newTab "noopener noreferrer"}}
+              >
+                {{#if button.icon}}{{icon button.icon}}{{/if}}<span
+                >{{button.label}}</span>
+              </a>
+            {{/each}}
           </div>
 
           {{#if this.showStatus}}

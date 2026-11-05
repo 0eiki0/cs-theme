@@ -39,8 +39,23 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 | `player_link_url` | Ziel beim Klick auf einen Kopf, `{name}` = Spielername (leer = nicht klickbar) |
 | `discord_url` | Link zum Discord (leer = ausgeblendet) |
 | `rules_url` | Link zu den Regeln (leer = ausgeblendet) |
+| `banner_buttons` | Beliebig viele eigene Buttons im Banner (siehe unten) |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
+
+## Eigene Buttons im Banner
+
+Unter **`banner_buttons`** lassen sich beliebig viele Buttons hinzufügen, sortieren und entfernen:
+
+| Feld | Beschreibung |
+|---|---|
+| `label` | Beschriftung, z. B. „Shop“ |
+| `url` | Ziel – `https://…` oder ein Forenpfad wie `/t/regeln/12` |
+| `icon` | Optional, Name von [fontawesome.com](https://fontawesome.com/search?ic=free), z. B. `cart-shopping`, Marken mit `fab-` davor (`fab-youtube`) |
+| `style` | `standard` (grau) oder `hervorgehoben` (grün) |
+| `new_tab` | Link in neuem Tab öffnen |
+
+Icons, die nicht schon in **`svg_icons`** stehen, dort ergänzen – sonst lädt Discourse sie nicht.
 
 ## Empfehlungen
 

@@ -60,6 +60,38 @@ rules_url:
   default: ""
   description: "Link zu euren Regeln (z. B. /t/regeln/12). Leer lassen, um den Button auszublenden."
 
+banner_buttons:
+  type: objects
+  default: []
+  description: "Eigene Buttons im Banner (neben Discord und Regeln). Verwendete Icons zusätzlich unter svg_icons eintragen."
+  schema:
+    name: "Button"
+    identifier: label
+    properties:
+      label:
+        type: string
+        required: true
+        validations:
+          max_length: 40
+      url:
+        type: string
+        required: true
+        validations:
+          max_length: 500
+      icon:
+        type: string
+        validations:
+          max_length: 60
+      style:
+        type: enum
+        default: standard
+        choices:
+          - standard
+          - hervorgehoben
+      new_tab:
+        type: boolean
+        default: false
+
 corner_radius:
   type: integer
   default: 10
@@ -75,5 +107,5 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "fab-discord|copy|check|book"
-  description: "Icons, die das Theme benötigt (nicht ändern, außer ihr wisst, was ihr tut)."
+  default: "fab-discord|copy|check|book|link|globe|chart-simple|cart-shopping|map|vote-yea"
+  description: "Icons, die im Theme verwendet werden. Eigene Icons für banner_buttons hier ergänzen (Namen von fontawesome.com, Marken mit fab- davor, z. B. fab-youtube)."
