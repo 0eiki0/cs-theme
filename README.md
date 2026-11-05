@@ -49,6 +49,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `team_online_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war (Standard 5) |
 | `team_online_keep_alive` | Teammitglieder bleiben in der Box, solange ihr Forum-Tab offen ist |
 | `team_online_mobile` | Box auch mobil anzeigen |
+| `highlight_unread` | Ungelesene Themen hervorheben, gelesene dezenter darstellen |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
 

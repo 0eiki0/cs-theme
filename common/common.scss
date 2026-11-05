@@ -207,6 +207,59 @@ textarea,
   }
 }
 
+// ---------- Ungelesene Themen hervorheben ----------
+@if $highlight_unread == true {
+  // Normale Themenliste: neue Themen und Themen mit ungelesenen Beiträgen
+  .topic-list-item.unseen-topic,
+  .topic-list-item.unread-posts {
+    background: rgba(var(--tertiary-rgb), 0.05);
+
+    > td:first-child {
+      box-shadow: inset 3px 0 0 var(--tertiary);
+    }
+
+    .main-link .title {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    &:hover {
+      background: rgba(var(--tertiary-rgb), 0.09);
+    }
+  }
+
+  // Spalte "Aktuell" auf der Kategorien-Seite
+  .latest-topic-list-item:has(.badge-notification) {
+    background: rgba(var(--tertiary-rgb), 0.05);
+    box-shadow: inset 3px 0 0 var(--tertiary);
+
+    .main-link .title {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  }
+
+  // Bereits komplett gelesene Themen treten zurück
+  .topic-list-item.visited:not(.unread-posts):not(.unseen-topic),
+  .latest-topic-list-item.visited:not(:has(.badge-notification)) {
+    .main-link .title {
+      color: var(--primary-medium);
+      font-weight: 400;
+    }
+  }
+
+  // Zähler für ungelesene Beiträge und "neu"-Markierung deutlicher
+  .topic-list,
+  .latest-topic-list {
+    .badge-notification.unread-posts,
+    .badge-notification.new-topic {
+      background: var(--tertiary);
+      color: var(--secondary);
+      font-weight: 700;
+    }
+  }
+}
+
 // ---------- Kategorien ----------
 .badge-category__wrapper .badge-category {
   font-weight: 500;

@@ -135,6 +135,11 @@ team_online_mobile:
   default: false
   description: "Box auch in der mobilen Ansicht anzeigen (dann über der Themenliste)."
 
+highlight_unread:
+  type: bool
+  default: true
+  description: "Neue und ungelesene Themen in den Listen hervorheben (grüner Rand, fette Titel); bereits gelesene Themen werden dezenter dargestellt."
+
 corner_radius:
   type: integer
   default: 10
