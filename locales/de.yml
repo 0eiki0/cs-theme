@@ -1,11 +1,31 @@
 de:
   theme_metadata:
     description: "Modernes, schlichtes Theme für Minecraft-Communities."
+    settings:
+      banner_buttons:
+        description: "Buttons im Banner neben der Server-IP (z. B. Discord, Regeln, Shop)."
+        schema:
+          properties:
+            label:
+              label: "Beschriftung"
+              description: "Text auf dem Button, z. B. „Discord“."
+            url:
+              label: "Link"
+              description: "https://… oder ein Forenpfad wie /t/regeln/12."
+            icon:
+              label: "Icon"
+              description: "Icon aus der Liste auswählen."
+            custom_icon:
+              label: "Eigenes Icon (optional)"
+              description: "Überschreibt die Auswahl. Name von fontawesome.com, Marken mit fab- davor. Zusätzlich unter svg_icons eintragen."
+            style:
+              label: "Stil"
+              description: "standard = grau, hervorgehoben = grün."
+            new_tab:
+              label: "In neuem Tab öffnen"
   banner:
     copy_ip: "IP kopieren"
     copied: "Kopiert!"
-    discord: "Discord"
-    rules: "Regeln"
     online: "Online"
     offline: "Offline"
     players: "%{count} / %{max} Spieler"

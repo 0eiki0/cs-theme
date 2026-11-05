@@ -63,7 +63,7 @@ rules_url:
 banner_buttons:
   type: objects
   default: []
-  description: "Eigene Buttons im Banner (neben Discord und Regeln). Verwendete Icons zusätzlich unter svg_icons eintragen."
+  description: "Buttons im Banner neben der Server-IP (z. B. Discord, Regeln, Shop). Reihenfolge per Drag & Drop."
   schema:
     name: "Button"
     identifier: label
@@ -79,6 +79,51 @@ banner_buttons:
         validations:
           max_length: 500
       icon:
+        type: enum
+        default: keins
+        choices:
+          - keins
+          - fab-discord
+          - fab-teamspeak
+          - fab-youtube
+          - fab-twitch
+          - fab-tiktok
+          - fab-instagram
+          - fab-github
+          - book
+          - gavel
+          - shield-halved
+          - circle-question
+          - headset
+          - envelope
+          - cart-shopping
+          - gift
+          - coins
+          - crown
+          - star
+          - heart
+          - globe
+          - link
+          - map
+          - map-location-dot
+          - chart-simple
+          - trophy
+          - check-to-slot
+          - users
+          - user-plus
+          - calendar-days
+          - newspaper
+          - bullhorn
+          - cube
+          - gamepad
+          - hammer
+          - server
+          - download
+          - video
+          - camera
+          - music
+          - arrow-up-right-from-square
+      custom_icon:
         type: string
         validations:
           max_length: 60
@@ -107,5 +152,5 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "fab-discord|copy|check|book|link|globe|chart-simple|cart-shopping|map|vote-yea"
-  description: "Icons, die im Theme verwendet werden. Eigene Icons für banner_buttons hier ergänzen (Namen von fontawesome.com, Marken mit fab- davor, z. B. fab-youtube)."
+  default: "copy|check|fab-discord|fab-teamspeak|fab-youtube|fab-twitch|fab-tiktok|fab-instagram|fab-github|book|gavel|shield-halved|circle-question|headset|envelope|cart-shopping|gift|coins|crown|star|heart|globe|link|map|map-location-dot|chart-simple|trophy|check-to-slot|users|user-plus|calendar-days|newspaper|bullhorn|cube|gamepad|hammer|server|download|video|camera|music|arrow-up-right-from-square"
+  description: "Icons, die Discourse für das Theme lädt. Die Auswahl-Icons sind schon enthalten. Ein eigenes Icon (custom_icon) hier zusätzlich eintragen."

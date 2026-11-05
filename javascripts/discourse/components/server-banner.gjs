@@ -86,20 +86,14 @@ export default class ServerBanner extends Component {
     return settings.server_ip;
   }
 
-  get discordUrl() {
-    return settings.discord_url;
-  }
-
-  get rulesUrl() {
-    return settings.rules_url;
-  }
-
   get customButtons() {
     return (settings.banner_buttons || [])
       .map((b) => ({
         label: b?.label,
         url: normalizeUrl(b?.url),
-        icon: (b?.icon || "").trim(),
+        icon:
+          (b?.custom_icon || "").trim() ||
+          (b?.icon && b.icon !== "keins" ? b.icon : ""),
         primary: b?.style === "hervorgehoben",
         newTab: !!b?.new_tab,
       }))
@@ -186,14 +180,6 @@ export default class ServerBanner extends Component {
       : i18n(themePrefix("banner.copy_ip"));
   }
 
-  get discordLabel() {
-    return i18n(themePrefix("banner.discord"));
-  }
-
-  get rulesLabel() {
-    return i18n(themePrefix("banner.rules"));
-  }
-
   async loadStatus() {
     const data = await fetchStatus();
     if (data && !this.isDestroying && !this.isDestroyed) {
@@ -251,21 +237,6 @@ export default class ServerBanner extends Component {
                   <span class="cs-ip__label">{{this.copyLabel}}</span>
                 </span>
               </button>
-            {{/if}}
-
-            {{#if this.discordUrl}}
-              <a
-                class="btn cs-banner__btn"
-                href={{this.discordUrl}}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{{icon "fab-discord"}}<span>{{this.discordLabel}}</span></a>
-            {{/if}}
-
-            {{#if this.rulesUrl}}
-              <a class="btn cs-banner__btn" href={{this.rulesUrl}}>
-                {{icon "book"}}<span>{{this.rulesLabel}}</span>
-              </a>
             {{/if}}
 
             {{#each this.customButtons as |button|}}
