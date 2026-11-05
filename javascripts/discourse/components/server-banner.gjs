@@ -6,60 +6,53 @@ import { service } from "@ember/service";
 import icon from "discourse/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 
-const STATUS_CACHE_MS = 60 * 1000;
-const statusCache = new Map();
-const pendingRequests = new Map();
+const STATUS_CACHE_MS = 30 * 1000;
+let statusCache = null;
+let pendingRequest = null;
 
-function fetchStatus(address) {
-  const cached = statusCache.get(address);
-  if (cached && Date.now() - cached.time < STATUS_CACHE_MS) {
-    return Promise.resolve(cached.data);
-  }
-  if (!pendingRequests.has(address)) {
-    pendingRequests.set(
-      address,
-      requestStatus(address).finally(() => pendingRequests.delete(address))
-    );
-  }
-  return pendingRequests.get(address);
+function statusUrl() {
+  return (settings.status_url || "").trim();
 }
 
-async function requestStatus(address) {
-  const cached = statusCache.get(address);
+function fetchStatus() {
+  if (statusCache && Date.now() - statusCache.time < STATUS_CACHE_MS) {
+    return Promise.resolve(statusCache.data);
+  }
+  pendingRequest ??= requestStatus().finally(() => (pendingRequest = null));
+  return pendingRequest;
+}
+
+async function requestStatus() {
   try {
-    const response = await fetch(
-      `https://api.mcsrvstat.us/3/${encodeURIComponent(address)}`
-    );
+    const response = await fetch(statusUrl(), {
+      credentials: "omit",
+      headers: { Accept: "application/json" },
+    });
     if (!response.ok) {
-      return cached?.data ?? null;
+      return statusCache?.data ?? null;
     }
     const data = await response.json();
-    statusCache.set(address, { time: Date.now(), data });
+    statusCache = { time: Date.now(), data };
     return data;
   } catch {
     // Status ist optional – bei Fehlern einfach ausblenden.
-    return cached?.data ?? null;
+    return statusCache?.data ?? null;
   }
-}
-
-function playerListAddress() {
-  return (settings.player_list_address || "").trim() || settings.server_ip;
 }
 
 export default class ServerBanner extends Component {
   @service router;
 
   @tracked copied = false;
-  @tracked status = statusCache.get(settings.server_ip)?.data ?? null;
-  @tracked listStatus = statusCache.get(playerListAddress())?.data ?? null;
+  @tracked status = statusCache?.data ?? null;
 
   constructor() {
     super(...arguments);
-    if (settings.show_player_count && settings.server_ip) {
+    if (
+      statusUrl() &&
+      (settings.show_player_count || settings.show_player_heads)
+    ) {
       this.loadStatus();
-    }
-    if (settings.show_player_heads && playerListAddress()) {
-      this.loadPlayerList();
     }
   }
 
@@ -89,7 +82,7 @@ export default class ServerBanner extends Component {
   }
 
   get showStatus() {
-    return settings.show_player_count && this.status;
+    return settings.show_player_count && !!this.status;
   }
 
   get isOnline() {
@@ -111,7 +104,7 @@ export default class ServerBanner extends Component {
   }
 
   get allPlayers() {
-    const list = this.listStatus?.online && this.listStatus.players?.list;
+    const list = this.isOnline && this.status.players?.list;
     if (!Array.isArray(list)) {
       return [];
     }
@@ -177,16 +170,9 @@ export default class ServerBanner extends Component {
   }
 
   async loadStatus() {
-    const data = await fetchStatus(settings.server_ip);
+    const data = await fetchStatus();
     if (data && !this.isDestroying && !this.isDestroyed) {
       this.status = data;
-    }
-  }
-
-  async loadPlayerList() {
-    const data = await fetchStatus(playerListAddress());
-    if (data && !this.isDestroying && !this.isDestroyed) {
-      this.listStatus = data;
     }
   }
 

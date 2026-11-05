@@ -7,7 +7,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 - **Zwei Farbschemata:** „CS Hell“ und „CS Dunkel“ mit grasgrünem Akzent
 - **Server-Banner** auf der Startseite und in den Themenlisten
   - Server-IP mit **Ein-Klick-Kopieren**
-  - **Live-Status & Spielerzahl** (über [mcsrvstat.us](https://mcsrvstat.us))
+  - **Live-Status & Spielerzahl** über euren eigenen Status-Endpunkt (keine Fremd-API)
   - **Köpfe aller Online-Spieler** (über [mineskin.eu](https://mineskin.eu))
   - Optionale Buttons zu **Discord** und **Regeln**
   - Dezente **Pixel-Kante** in Gras-Block-Optik (abschaltbar)
@@ -31,9 +31,9 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 | `banner_tagline` | Untertitel im Banner |
 | `server_ip` | Server-Adresse zum Kopieren |
 | `show_banner` | Banner ein/aus |
+| `status_url` | URL eurer `status.php` (siehe unten) |
 | `show_player_count` | Live-Status & Spielerzahl ein/aus |
 | `show_player_heads` | Köpfe der Online-Spieler ein/aus |
-| `player_list_address` | Optionale Adresse nur für die Spielernamen (z. B. `brokko.cubeside.de`) |
 | `max_player_heads` | Max. Anzahl Köpfe (0 = alle), Rest als „+X“ |
 | `player_head_url` | Bildquelle, `{name}` = Spielername |
 | `player_link_url` | Ziel beim Klick auf einen Kopf, `{name}` = Spielername (leer = nicht klickbar) |
@@ -47,20 +47,21 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 - Unter *Admin → Einstellungen → Schriftart* als Grundschrift **Inter** wählen – passt perfekt zum Theme.
 - Ein Logo mit transparentem Hintergrund (SVG oder PNG, ca. 40 px hoch) wirkt im Header am besten.
 
-## Spielerköpfe – Voraussetzung
+## Status-Endpunkt einrichten (Spielerzahl & Köpfe)
 
-Liefert eine andere Adresse als die Join-Adresse die Spielerliste, diese unter
-`player_list_address` eintragen. Status und Spielerzahl kommen weiterhin von `server_ip`,
-nur die Namen von der zusätzlichen Adresse.
+Status, Spielerzahl und Spielernamen fragt das Theme bei eurem **eigenen Webserver** ab –
+es wird keine fremde API benutzt. Nur die Kopf-Bilder kommen von mineskin.eu.
 
-Die Namen der Online-Spieler kommen von mcsrvstat.us. Damit die **vollständige** Liste
-verfügbar ist, muss auf eurem Server Query aktiviert sein (`server.properties`):
+1. `server/status.php` aus diesem Repo auf euren Webserver laden, **in denselben Ordner wie
+   eure `status.class.php`**.
+2. Oben in der `status.php` anpassen:
+   - `MC_HOST` / `MC_PORT` – welcher Server abgefragt wird (Standard: `brokko.cubeside.de`)
+   - `ALLOWED_ORIGIN` – optional die Forum-Adresse, z. B. `https://forum.cubeside.de`
+   - `CACHE_SECONDS` – wie lange ein Ergebnis zwischengespeichert wird (Standard: 30 s)
+3. Im Browser prüfen, ob die Datei JSON liefert, z. B.:
+   `{"online":true,"players":{"online":55,"max":100,"list":["Alex","Eiki"]},"updated":…}`
+4. Die URL im Theme unter **`status_url`** eintragen. Die Seite muss über **https** erreichbar sein.
 
-```
-enable-query=true
-query.port=25565
-```
-
-Ohne Query liefert Minecraft nur eine Stichprobe von max. 12 Spielern. Bei Proxys
-(BungeeCord/Velocity) Query in der Proxy-Konfiguration aktivieren. Die Daten werden
-von mcsrvstat.us einige Minuten zwischengespeichert.
+Der Endpunkt speichert das Ergebnis zwischen, damit nicht jeder Forenbesuch den
+Minecraft-Server anpingt. Spielerzahl und Namen kommen aus derselben Abfrage und passen
+deshalb immer zusammen.

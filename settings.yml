@@ -21,17 +21,17 @@ show_banner:
 show_player_count:
   type: bool
   default: true
-  description: "Live-Status und Spielerzahl im Banner anzeigen (über api.mcsrvstat.us)."
+  description: "Online-Status und Spielerzahl im Banner anzeigen (benötigt status_url)."
+
+status_url:
+  type: string
+  default: ""
+  description: "Adresse eures eigenen Status-Endpunkts (status.php aus dem Ordner server/), z. B. https://cubeside.de/forum/status.php. Leer = kein Status und keine Köpfe."
 
 show_player_heads:
   type: bool
   default: true
-  description: "Köpfe aller Spieler, die gerade online sind, im Banner anzeigen. Der Server muss die Spielerliste freigeben (enable-query=true in der server.properties)."
-
-player_list_address:
-  type: string
-  default: ""
-  description: "Optionale Adresse, von der die Spielernamen abgefragt werden (z. B. brokko.cubeside.de). Leer = Server-IP wird verwendet."
+  description: "Köpfe aller Spieler, die gerade online sind, im Banner anzeigen. Die Namen kommen von eurem Status-Endpunkt (status_url)."
 
 max_player_heads:
   type: integer
