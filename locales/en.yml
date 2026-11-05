@@ -20,6 +20,16 @@ en:
               description: "standard = grey, hervorgehoben = green (highlighted)."
             new_tab:
               label: "Open in new tab"
+      team_sections:
+        description: "Groups shown in the “Team Online” box. Reorder via drag & drop. Members of several groups only appear in the topmost one."
+        schema:
+          properties:
+            group:
+              label: "Group"
+              description: "The group's “Who can see members” must be set to “Everyone”."
+            title:
+              label: "Heading (optional)"
+              description: "Empty = the group's full name."
   banner:
     copy_ip: "Copy IP"
     copied: "Copied!"

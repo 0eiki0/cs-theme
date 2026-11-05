@@ -20,6 +20,16 @@ de:
               description: "standard = grau, hervorgehoben = grün."
             new_tab:
               label: "In neuem Tab öffnen"
+      team_sections:
+        description: "Gruppen in der Box „Team Online“. Reihenfolge per Drag & Drop. Wer in mehreren Gruppen ist, erscheint nur in der obersten."
+        schema:
+          properties:
+            group:
+              label: "Gruppe"
+              description: "„Wer kann Mitglieder sehen“ muss in der Gruppe auf „Jeder“ stehen."
+            title:
+              label: "Überschrift (optional)"
+              description: "Leer = vollständiger Name der Gruppe."
   banner:
     copy_ip: "IP kopieren"
     copied: "Kopiert!"

@@ -45,7 +45,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `banner_buttons` | Alle Buttons im Banner (siehe unten) |
 | `show_team_online` | Box „Team Online“ ein/aus |
 | `team_online_title` | Überschrift der Box |
-| `team_groups` | Gruppen, deren Mitglieder angezeigt werden (Reihenfolge = Reihenfolge in der Box) |
+| `team_sections` | Gruppen in der Box, per Drag & Drop sortierbar, optional mit eigener Überschrift |
 | `team_online_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war (Standard 5) |
 | `team_online_mobile` | Box auch mobil anzeigen |
 | `corner_radius` | Eckenradius in px (0–24) |
@@ -70,13 +70,14 @@ Regeln → Link `/t/regeln/12`, Icon „book“.
 
 ## Team Online
 
-Die Box zeigt Mitglieder der unter `team_groups` gewählten Gruppen, die in den letzten
+Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in den letzten
 `team_online_minutes` Minuten im Forum aktiv waren – mit Avatar, Name und Titel. Ein Klick
 öffnet die Benutzerkarte. Die Box aktualisiert sich jede Minute.
 
 - In jeder gewählten Gruppe muss unter *Gruppe → Verwalten → Interaktion* „Wer kann
   Mitglieder sehen“ auf **Jeder** stehen, sonst wird die Gruppe übersprungen.
-- Als Abschnittstitel wird der **Vollständige Name** der Gruppe verwendet (sonst der Gruppenname).
+- Reihenfolge der Gruppen per Drag & Drop im Editor. Wer in mehreren Gruppen ist, erscheint nur in der obersten.
+- Als Abschnittstitel wird die eingetragene **Überschrift** verwendet, sonst der **Vollständige Name** der Gruppe.
 - Mitglieder, die in ihrem Profil „Profil und Präsenz verbergen“ aktiviert haben, erscheinen nicht.
 - Auf Bildschirmen unter 1200 px steht die Box über der Themenliste.
 

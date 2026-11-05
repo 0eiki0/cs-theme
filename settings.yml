@@ -97,11 +97,26 @@ team_online_title:
   default: "Team Online"
   description: "Überschrift der Box."
 
-team_groups:
-  type: list
-  list_type: group
-  default: "1|2"
-  description: "Gruppen, deren Mitglieder angezeigt werden – in dieser Reihenfolge. Wer in mehreren Gruppen ist, erscheint nur in der ersten. „Wer kann Mitglieder sehen“ muss in der Gruppe auf „Jeder“ stehen."
+team_sections:
+  type: objects
+  default:
+    - group: [1]
+    - group: [2]
+  description: "Gruppen in der Box „Team Online“. Reihenfolge per Drag & Drop. Wer in mehreren Gruppen ist, erscheint nur in der obersten. „Wer kann Mitglieder sehen“ muss in der Gruppe auf „Jeder“ stehen."
+  schema:
+    name: "Gruppe"
+    identifier: title
+    properties:
+      group:
+        type: groups
+        required: true
+        validations:
+          min: 1
+          max: 1
+      title:
+        type: string
+        validations:
+          max_length: 60
 
 team_online_minutes:
   type: integer

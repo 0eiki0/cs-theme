@@ -9,21 +9,28 @@ import { i18n } from "discourse-i18n";
 const REFRESH_MS = 60 * 1000;
 let teamCache = null;
 
-// Die Einstellung speichert Gruppen-IDs ("1|2|42"). Ältere Werte können
-// auch Gruppennamen sein – beides wird über site.groups aufgelöst.
+// team_sections: [{ group: [id], title: "…" }, …] in der eingestellten
+// Reihenfolge. IDs werden über site.groups in Gruppennamen aufgelöst.
 function configuredGroups(site) {
   const available = site.groups || [];
-  return (settings.team_groups || "")
-    .split("|")
-    .map((value) => value.trim())
-    .filter(Boolean)
-    .map((value) =>
-      /^\d+$/.test(value)
-        ? available.find((g) => g.id === parseInt(value, 10))
-        : available.find((g) => g.name === value)
-    )
-    .filter(Boolean)
-    .map((g) => ({ name: g.name, title: g.full_name || g.name }));
+  const sections = Array.isArray(settings.team_sections)
+    ? settings.team_sections
+    : [];
+
+  return sections
+    .map((section) => {
+      const id = parseInt([].concat(section?.group ?? [])[0], 10);
+      const group = available.find((g) => g.id === id);
+      if (!group) {
+        return null;
+      }
+      const title = (section.title || "").trim();
+      return {
+        name: group.name,
+        title: title || group.full_name || group.name,
+      };
+    })
+    .filter(Boolean);
 }
 
 async function loadGroupMembers(name) {
