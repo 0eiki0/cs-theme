@@ -151,14 +151,9 @@ export default class ServerBanner extends Component {
   }
 
   get hiddenPlayerCount() {
-    // Spieler ohne sichtbaren Namen (z. B. im Vanish) über die Gesamtzahl
-    // mitzählen, damit "+X" zur angezeigten Spielerzahl passt.
-    const online = this.isOnline ? this.status?.players?.online : 0;
-    const total = Math.max(
-      this.allPlayers.length,
-      typeof online === "number" ? online : 0
-    );
-    return Math.max(0, total - this.visiblePlayers.length);
+    // Nur Spieler zählen, deren Namen bekannt sind, aber wegen
+    // max_player_heads nicht angezeigt werden (keine Vanish-Spieler).
+    return this.allPlayers.length - this.visiblePlayers.length;
   }
 
   get hiddenPlayerTitle() {
