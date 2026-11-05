@@ -613,3 +613,196 @@ textarea,
     transform: none;
   }
 }
+
+// ---------- Team Online (rechte Spalte) ----------
+.list-container .row:has(> .cs-team) {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+
+  > #list-area {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  > .cs-team {
+    order: 2;
+    flex: 0 0 240px;
+    width: 240px;
+    min-width: 0;
+    position: sticky;
+    top: calc(var(--header-offset, 4rem) + 1rem);
+  }
+}
+
+.cs-team {
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+  padding: 1.1rem 1rem 0.75rem;
+  border: var(--cs-border);
+  border-radius: var(--cs-radius);
+  background: var(--secondary);
+  box-shadow: var(--cs-shadow);
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    font-size: var(--font-0);
+    font-weight: 700;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgba(var(--success-rgb), 0.2);
+  }
+
+  &__count {
+    margin-left: auto;
+    min-width: 1.5em;
+    padding: 0.1em 0.5em;
+    border-radius: 999px;
+    background: var(--tertiary-very-low, var(--primary-very-low));
+    color: var(--tertiary);
+    font-size: var(--font-down-1);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  &__empty {
+    margin: 0 0 0.35rem;
+    color: var(--primary-medium);
+    font-size: var(--font-down-1);
+  }
+
+  &__group + &__group {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: var(--cs-border);
+  }
+
+  &__group-title {
+    margin: 0 0 0.35rem;
+    font-size: var(--font-down-2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary-medium);
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__member {
+    min-width: 0;
+    margin: 0;
+    animation: cs-head-in 250ms ease-out backwards;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    margin: 0 -0.4rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: var(--cs-radius-sm);
+    color: var(--primary);
+    transition: background var(--cs-transition);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--primary-very-low);
+      color: var(--primary);
+    }
+  }
+
+  &__avatar {
+    position: relative;
+    flex-shrink: 0;
+    line-height: 0;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    // Online-Punkt am Avatar
+    &::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      bottom: -1px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      border: 2px solid var(--secondary);
+    }
+  }
+
+  &__names {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-weight: 600;
+    font-size: var(--font-down-1);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    overflow: hidden;
+    color: var(--primary-medium);
+    font-size: var(--font-down-2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// Schmalere Bildschirme: Box über der Liste, Mitglieder nebeneinander
+@media (max-width: 1200px) {
+  .list-container .row:has(> .cs-team) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    > .cs-team {
+      order: 0;
+      flex: none;
+      width: auto;
+      position: static;
+      margin: 0 0 1rem;
+    }
+  }
+
+  .cs-team__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+  }
+
+  .cs-team__link {
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-team__member {
+    animation: none;
+  }
+}

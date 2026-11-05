@@ -11,6 +11,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
   - **Köpfe aller Online-Spieler** (über [mineskin.eu](https://mineskin.eu))
   - **Frei konfigurierbare Buttons** (Discord, Regeln, Shop …) mit Icon-Auswahl
   - Dezente **Pixel-Kante** in Gras-Block-Optik (abschaltbar)
+- **Team Online:** Box rechts neben der Themenliste mit allen Teammitgliedern, die gerade im Forum aktiv sind
 - Glasiger, schlanker Header, ruhige Themenliste, abgerundete Karten
 - Einheitliche Eckenradien (einstellbar), sanfte Hover-Effekte, Fokus-Ringe
 - Mobil optimiert, respektiert `prefers-reduced-motion`
@@ -42,6 +43,11 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `player_head_url` | Bildquelle, `{name}` = Spielername |
 | `player_link_url` | Ziel beim Klick auf einen Kopf, `{name}` = Spielername (leer = nicht klickbar) |
 | `banner_buttons` | Alle Buttons im Banner (siehe unten) |
+| `show_team_online` | Box „Team Online“ ein/aus |
+| `team_online_title` | Überschrift der Box |
+| `team_groups` | Gruppen, deren Mitglieder angezeigt werden (Reihenfolge = Reihenfolge in der Box) |
+| `team_online_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war (Standard 5) |
+| `team_online_mobile` | Box auch mobil anzeigen |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
 
@@ -61,6 +67,18 @@ und löschen.
 
 **Beispiel:** Discord → Link `https://discord.gg/…`, Icon „discord“, neuer Tab ✓ ·
 Regeln → Link `/t/regeln/12`, Icon „book“.
+
+## Team Online
+
+Die Box zeigt Mitglieder der unter `team_groups` gewählten Gruppen, die in den letzten
+`team_online_minutes` Minuten im Forum aktiv waren – mit Avatar, Name und Titel. Ein Klick
+öffnet die Benutzerkarte. Die Box aktualisiert sich jede Minute.
+
+- In jeder gewählten Gruppe muss unter *Gruppe → Verwalten → Interaktion* „Wer kann
+  Mitglieder sehen“ auf **Jeder** stehen, sonst wird die Gruppe übersprungen.
+- Als Abschnittstitel wird der **Vollständige Name** der Gruppe verwendet (sonst der Gruppenname).
+- Mitglieder, die in ihrem Profil „Profil und Präsenz verbergen“ aktiviert haben, erscheinen nicht.
+- Auf Bildschirmen unter 1200 px steht die Box über der Themenliste.
 
 ## Empfehlungen
 

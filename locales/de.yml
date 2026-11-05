@@ -27,3 +27,5 @@ de:
     offline: "Offline"
     players: "%{count} / %{max} Spieler"
     more_players: "%{count} weitere Spieler"
+  team_online:
+    nobody: "Gerade ist niemand vom Team online."

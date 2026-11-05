@@ -87,6 +87,34 @@ banner_buttons:
         type: boolean
         default: false
 
+show_team_online:
+  type: bool
+  default: true
+  description: "Box „Team Online“ rechts neben der Themenliste anzeigen."
+
+team_online_title:
+  type: string
+  default: "Team Online"
+  description: "Überschrift der Box."
+
+team_groups:
+  type: list
+  list_type: group
+  default: "admins|moderators"
+  description: "Gruppen, deren Mitglieder angezeigt werden – in dieser Reihenfolge. Wer in mehreren Gruppen ist, erscheint nur in der ersten. „Wer kann Mitglieder sehen“ muss in der Gruppe auf „Jeder“ stehen."
+
+team_online_minutes:
+  type: integer
+  default: 5
+  min: 1
+  max: 60
+  description: "Als online gilt, wer in den letzten X Minuten im Forum aktiv war."
+
+team_online_mobile:
+  type: bool
+  default: false
+  description: "Box auch in der mobilen Ansicht anzeigen (dann über der Themenliste)."
+
 corner_radius:
   type: integer
   default: 10
