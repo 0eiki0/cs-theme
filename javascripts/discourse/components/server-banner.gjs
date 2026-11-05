@@ -69,6 +69,37 @@ export default class ServerBanner extends Component {
     return i18n(themePrefix("banner.online"));
   }
 
+  get allPlayers() {
+    const list = this.status?.players?.list;
+    if (!this.isOnline || !Array.isArray(list)) {
+      return [];
+    }
+    return list
+      .map((p) => (typeof p === "string" ? p : p?.name))
+      .filter((name) => name && /^[A-Za-z0-9_.]{1,16}$/.test(name))
+      .sort((a, b) => a.localeCompare(b));
+  }
+
+  get showHeads() {
+    return settings.show_player_heads && this.allPlayers.length > 0;
+  }
+
+  get visiblePlayers() {
+    const max = settings.max_player_heads || 0;
+    const players = max > 0 ? this.allPlayers.slice(0, max) : this.allPlayers;
+    return players.map((name) => ({
+      name,
+      url: settings.player_head_url.replace(
+        "{name}",
+        encodeURIComponent(name)
+      ),
+    }));
+  }
+
+  get hiddenPlayerCount() {
+    return this.allPlayers.length - this.visiblePlayers.length;
+  }
+
   get copyLabel() {
     return this.copied
       ? i18n(themePrefix("banner.copied"))
@@ -175,6 +206,26 @@ export default class ServerBanner extends Component {
 
           {{#if this.showStatus}}
             <p class="cs-banner__status">{{this.statusLabel}}</p>
+          {{/if}}
+
+          {{#if this.showHeads}}
+            <ul class="cs-heads">
+              {{#each this.visiblePlayers as |player|}}
+                <li class="cs-heads__item" title={{player.name}}>
+                  <img
+                    class="cs-heads__img"
+                    src={{player.url}}
+                    alt={{player.name}}
+                    width="32"
+                    height="32"
+                    loading="lazy"
+                  />
+                </li>
+              {{/each}}
+              {{#if this.hiddenPlayerCount}}
+                <li class="cs-heads__more">+{{this.hiddenPlayerCount}}</li>
+              {{/if}}
+            </ul>
           {{/if}}
         </div>
       </section>

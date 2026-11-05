@@ -23,6 +23,23 @@ show_player_count:
   default: true
   description: "Live-Status und Spielerzahl im Banner anzeigen (über api.mcsrvstat.us)."
 
+show_player_heads:
+  type: bool
+  default: true
+  description: "Köpfe aller Spieler, die gerade online sind, im Banner anzeigen. Der Server muss die Spielerliste freigeben (enable-query=true in der server.properties)."
+
+max_player_heads:
+  type: integer
+  default: 30
+  min: 0
+  max: 200
+  description: "Maximale Anzahl angezeigter Köpfe (0 = alle). Weitere Spieler erscheinen als „+X“."
+
+player_head_url:
+  type: string
+  default: "https://mineskin.eu/helm/{name}.png"
+  description: "Bildquelle für die Köpfe. {name} wird durch den Spielernamen ersetzt."
+
 discord_url:
   type: string
   default: ""

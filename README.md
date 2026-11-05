@@ -8,6 +8,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 - **Server-Banner** auf der Startseite und in den Themenlisten
   - Server-IP mit **Ein-Klick-Kopieren**
   - **Live-Status & Spielerzahl** (über [mcsrvstat.us](https://mcsrvstat.us))
+  - **Köpfe aller Online-Spieler** (über [mineskin.eu](https://mineskin.eu))
   - Optionale Buttons zu **Discord** und **Regeln**
   - Dezente **Pixel-Kante** in Gras-Block-Optik (abschaltbar)
 - Glasiger, schlanker Header, ruhige Themenliste, abgerundete Karten
@@ -31,6 +32,9 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 | `server_ip` | Server-Adresse zum Kopieren |
 | `show_banner` | Banner ein/aus |
 | `show_player_count` | Live-Status & Spielerzahl ein/aus |
+| `show_player_heads` | Köpfe der Online-Spieler ein/aus |
+| `max_player_heads` | Max. Anzahl Köpfe (0 = alle), Rest als „+X“ |
+| `player_head_url` | Bildquelle, `{name}` = Spielername |
 | `discord_url` | Link zum Discord (leer = ausgeblendet) |
 | `rules_url` | Link zu den Regeln (leer = ausgeblendet) |
 | `corner_radius` | Eckenradius in px (0–24) |
@@ -40,3 +44,17 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 
 - Unter *Admin → Einstellungen → Schriftart* als Grundschrift **Inter** wählen – passt perfekt zum Theme.
 - Ein Logo mit transparentem Hintergrund (SVG oder PNG, ca. 40 px hoch) wirkt im Header am besten.
+
+## Spielerköpfe – Voraussetzung
+
+Die Namen der Online-Spieler kommen von mcsrvstat.us. Damit die **vollständige** Liste
+verfügbar ist, muss auf eurem Server Query aktiviert sein (`server.properties`):
+
+```
+enable-query=true
+query.port=25565
+```
+
+Ohne Query liefert Minecraft nur eine Stichprobe von max. 12 Spielern. Bei Proxys
+(BungeeCord/Velocity) Query in der Proxy-Konfiguration aktivieren. Die Daten werden
+von mcsrvstat.us einige Minuten zwischengespeichert.

@@ -32,3 +32,18 @@
 .topic-list .topic-list-item:hover {
   background: transparent;
 }
+
+.cs-heads {
+  gap: 4px;
+
+  &__img,
+  &__more {
+    width: 28px;
+    height: 28px;
+  }
+
+  &__more {
+    width: auto;
+    min-width: 28px;
+  }
+}
