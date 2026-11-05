@@ -72,12 +72,14 @@ Regeln → Link `/t/regeln/12`, Icon „book“.
 Status, Spielerzahl und Spielernamen fragt das Theme bei eurem **eigenen Webserver** ab –
 es wird keine fremde API benutzt. Nur die Kopf-Bilder kommen von mineskin.eu.
 
-1. `server/status.php` aus diesem Repo auf euren Webserver laden, **in denselben Ordner wie
-   eure `status.class.php`**.
+1. `server/status.php` aus diesem Repo auf euren Webserver laden (PHP 7.4+). Weitere Dateien
+   wie eine `status.class.php` werden nicht benötigt.
 2. Oben in der `status.php` anpassen:
    - `MC_HOST` / `MC_PORT` – welcher Server abgefragt wird (Standard: `brokko.cubeside.de`)
    - `ALLOWED_ORIGIN` – optional die Forum-Adresse, z. B. `https://forum.cubeside.de`
    - `CACHE_SECONDS` – wie lange ein Ergebnis zwischengespeichert wird (Standard: 30 s)
+   - `STALE_SECONDS` – wie lange bei Fehlern der letzte gute Stand weiter angezeigt wird (Standard: 5 min)
+   - `TIMEOUT` – Zeitlimit für die Abfrage (Standard: 3 s)
 3. Im Browser prüfen, ob die Datei JSON liefert, z. B.:
    `{"online":true,"players":{"online":55,"max":100,"list":["Alex","Eiki"]},"updated":…}`
 4. Die URL im Theme unter **`status_url`** eintragen. Die Seite muss über **https** erreichbar sein.

@@ -34,6 +34,24 @@ function fetchStatus() {
   return pendingRequest;
 }
 
+// Prüft, ob eine Antwort vollständig ist. "Online" ohne gültige
+// Spielerzahl oder mit 0 Plätzen deutet auf eine abgebrochene Abfrage hin.
+function isPlausible(data) {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  if (!data.online) {
+    return true;
+  }
+  const players = data.players;
+  return (
+    !!players &&
+    typeof players.online === "number" &&
+    typeof players.max === "number" &&
+    players.max > 0
+  );
+}
+
 async function requestStatus() {
   try {
     const response = await fetch(statusUrl(), {
@@ -45,6 +63,10 @@ async function requestStatus() {
       return statusCache?.data ?? null;
     }
     const data = await response.json();
+    if (!isPlausible(data)) {
+      // Kaputte Antwort (z. B. "online, aber 0 / 0") → alten Stand behalten
+      return statusCache?.data ?? null;
+    }
     statusCache = { time: Date.now(), data };
     return data;
   } catch {
