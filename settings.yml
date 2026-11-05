@@ -100,7 +100,7 @@ team_online_title:
 team_groups:
   type: list
   list_type: group
-  default: "admins|moderators"
+  default: "1|2"
   description: "Gruppen, deren Mitglieder angezeigt werden – in dieser Reihenfolge. Wer in mehreren Gruppen ist, erscheint nur in der ersten. „Wer kann Mitglieder sehen“ muss in der Gruppe auf „Jeder“ stehen."
 
 team_online_minutes:

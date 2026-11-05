@@ -7,26 +7,23 @@ import { ajax } from "discourse/lib/ajax";
 import { i18n } from "discourse-i18n";
 
 const REFRESH_MS = 60 * 1000;
-const groupTitles = new Map();
 let teamCache = null;
 
-function groupNames() {
+// Die Einstellung speichert Gruppen-IDs ("1|2|42"). Ältere Werte können
+// auch Gruppennamen sein – beides wird über site.groups aufgelöst.
+function configuredGroups(site) {
+  const available = site.groups || [];
   return (settings.team_groups || "")
     .split("|")
-    .map((name) => name.trim())
-    .filter(Boolean);
-}
-
-async function loadGroupTitle(name) {
-  if (!groupTitles.has(name)) {
-    try {
-      const result = await ajax(`/groups/${encodeURIComponent(name)}.json`);
-      groupTitles.set(name, result?.group?.full_name || name);
-    } catch {
-      groupTitles.set(name, name);
-    }
-  }
-  return groupTitles.get(name);
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map((value) =>
+      /^\d+$/.test(value)
+        ? available.find((g) => g.id === parseInt(value, 10))
+        : available.find((g) => g.name === value)
+    )
+    .filter(Boolean)
+    .map((g) => ({ name: g.name, title: g.full_name || g.name }));
 }
 
 async function loadGroupMembers(name) {
@@ -42,17 +39,16 @@ async function loadGroupMembers(name) {
   }
 }
 
-async function loadTeam() {
-  const names = groupNames();
+async function loadTeam(site) {
+  const configured = configuredGroups(site);
   const cutoff =
     Date.now() - Math.max(1, settings.team_online_minutes || 5) * 60 * 1000;
   const seen = new Set();
 
   const groups = await Promise.all(
-    names.map(async (name) => ({
-      name,
-      title: await loadGroupTitle(name),
-      members: await loadGroupMembers(name),
+    configured.map(async (group) => ({
+      ...group,
+      members: await loadGroupMembers(group.name),
     }))
   );
 
@@ -108,7 +104,9 @@ export default class TeamOnline extends Component {
       return false;
     }
     const route = this.router.currentRouteName || "";
-    return route.startsWith("discovery.") && groupNames().length > 0;
+    return (
+      route.startsWith("discovery.") && configuredGroups(this.site).length > 0
+    );
   }
 
   get title() {
@@ -136,7 +134,7 @@ export default class TeamOnline extends Component {
       this.groups = teamCache.groups;
       return;
     }
-    const groups = await loadTeam();
+    const groups = await loadTeam(this.site);
     teamCache = { time: Date.now(), groups };
     if (!this.isDestroying && !this.isDestroyed) {
       this.groups = groups;
