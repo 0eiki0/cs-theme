@@ -69,54 +69,7 @@ banner_buttons:
         validations:
           max_length: 500
       icon:
-        type: enum
-        default: keins
-        choices:
-          - keins
-          - fab-discord
-          - fab-teamspeak
-          - fab-youtube
-          - fab-twitch
-          - fab-tiktok
-          - fab-instagram
-          - fab-github
-          - book
-          - gavel
-          - shield-halved
-          - circle-question
-          - headset
-          - envelope
-          - cart-shopping
-          - gift
-          - coins
-          - crown
-          - star
-          - heart
-          - globe
-          - link
-          - map
-          - map-location-dot
-          - chart-simple
-          - trophy
-          - check-to-slot
-          - users
-          - user-plus
-          - calendar-days
-          - newspaper
-          - bullhorn
-          - cube
-          - gamepad
-          - hammer
-          - server
-          - download
-          - video
-          - camera
-          - music
-          - arrow-up-right-from-square
-      custom_icon:
-        type: string
-        validations:
-          max_length: 60
+        type: icon
       style:
         type: enum
         default: standard
@@ -142,5 +95,5 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "copy|check|fab-discord|fab-teamspeak|fab-youtube|fab-twitch|fab-tiktok|fab-instagram|fab-github|book|gavel|shield-halved|circle-question|headset|envelope|cart-shopping|gift|coins|crown|star|heart|globe|link|map|map-location-dot|chart-simple|trophy|check-to-slot|users|user-plus|calendar-days|newspaper|bullhorn|cube|gamepad|hammer|server|download|video|camera|music|arrow-up-right-from-square"
-  description: "Icons, die Discourse für das Theme lädt. Die Auswahl-Icons sind schon enthalten. Ein eigenes Icon (custom_icon) hier zusätzlich eintragen."
+  default: "copy|check"
+  description: "Icons für den IP-Button. Icons der banner_buttons lädt Discourse automatisch."

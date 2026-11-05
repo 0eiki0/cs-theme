@@ -3,7 +3,7 @@
   "about_url": "https://github.com/0eiki0/cs-theme",
   "license_url": "https://github.com/0eiki0/cs-theme/blob/main/LICENSE",
   "component": false,
-  "minimum_discourse_version": "3.3.0",
+  "minimum_discourse_version": "2026.8.0",
   "assets": {},
   "color_schemes": {
     "CS Hell": {

@@ -14,10 +14,7 @@ en:
               description: "https://… or a forum path such as /t/rules/12."
             icon:
               label: "Icon"
-              description: "Pick an icon from the list."
-            custom_icon:
-              label: "Custom icon (optional)"
-              description: "Overrides the selection. Name from fontawesome.com, brands prefixed with fab-. Also add it to svg_icons."
+              description: "Pick an icon – with preview and search (brand logos like Discord are found via search)."
             style:
               label: "Style"
               description: "standard = grey, hervorgehoben = green (highlighted)."

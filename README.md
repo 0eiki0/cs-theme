@@ -17,6 +17,9 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 
 ## Installation
 
+Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den Einstellungen).
+
+
 1. Discourse-Admin → **Darstellung → Themes → Installieren → Aus Git-Repository**
 2. URL eingeben: `https://github.com/0eiki0/cs-theme` (bei privatem Repo einen Deploy-Key hinterlegen)
 3. Theme als **Standard** setzen und das Farbschema **„CS Hell“** oder **„CS Dunkel“** wählen.
@@ -51,13 +54,12 @@ und löschen.
 |---|---|
 | Beschriftung | Text auf dem Button, z. B. „Discord“ |
 | Link | `https://…`, ein Forenpfad wie `/t/regeln/12` oder einfach `shop.example.de` |
-| Icon | Auswahl aus der Liste (Discord, TeamSpeak, YouTube, Buch, Shop, Karte, Pokal …) oder `keins` |
-| Eigenes Icon | Optional, überschreibt die Auswahl – Name von [fontawesome.com](https://fontawesome.com/search?ic=free), Marken mit `fab-` davor. Zusätzlich unter `svg_icons` eintragen. |
+| Icon | Optional – Icon-Auswahl mit Vorschau und Suche über alle Font-Awesome-Icons inkl. Marken-Logos (Discord, YouTube, TeamSpeak …). Wird automatisch geladen. |
 | Stil | `standard` (grau) oder `hervorgehoben` (grün) |
 | In neuem Tab öffnen | für externe Links empfohlen |
 
-**Beispiel:** Discord → Link `https://discord.gg/…`, Icon `fab-discord`, neuer Tab ✓ ·
-Regeln → Link `/t/regeln/12`, Icon `book`.
+**Beispiel:** Discord → Link `https://discord.gg/…`, Icon „discord“, neuer Tab ✓ ·
+Regeln → Link `/t/regeln/12`, Icon „book“.
 
 ## Empfehlungen
 

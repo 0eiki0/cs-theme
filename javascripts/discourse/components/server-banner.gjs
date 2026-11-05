@@ -91,9 +91,7 @@ export default class ServerBanner extends Component {
       .map((b) => ({
         label: b?.label,
         url: normalizeUrl(b?.url),
-        icon:
-          (b?.custom_icon || "").trim() ||
-          (b?.icon && b.icon !== "keins" ? b.icon : ""),
+        icon: typeof b?.icon === "string" ? b.icon.trim() : "",
         primary: b?.style === "hervorgehoben",
         newTab: !!b?.new_tab,
       }))

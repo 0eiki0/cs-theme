@@ -14,10 +14,7 @@ de:
               description: "https://… oder ein Forenpfad wie /t/regeln/12."
             icon:
               label: "Icon"
-              description: "Icon aus der Liste auswählen."
-            custom_icon:
-              label: "Eigenes Icon (optional)"
-              description: "Überschreibt die Auswahl. Name von fontawesome.com, Marken mit fab- davor. Zusätzlich unter svg_icons eintragen."
+              description: "Icon auswählen – mit Vorschau und Suche (Marken-Logos wie Discord findet ihr über die Suche)."
             style:
               label: "Stil"
               description: "standard = grau, hervorgehoben = grün."
