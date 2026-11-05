@@ -47,6 +47,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `team_online_title` | Überschrift der Box |
 | `team_sections` | Gruppen in der Box, per Drag & Drop sortierbar, optional mit eigener Überschrift |
 | `team_online_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war (Standard 5) |
+| `team_online_keep_alive` | Teammitglieder bleiben in der Box, solange ihr Forum-Tab offen ist |
 | `team_online_mobile` | Box auch mobil anzeigen |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
@@ -78,6 +79,9 @@ Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in
   Mitglieder sehen“ auf **Jeder** stehen, sonst wird die Gruppe übersprungen.
 - Reihenfolge der Gruppen per Drag & Drop im Editor. Wer in mehreren Gruppen ist, erscheint nur in der obersten.
 - Als Abschnittstitel wird die eingetragene **Überschrift** verwendet, sonst der **Vollständige Name** der Gruppe.
+- Mit `team_online_keep_alive` schickt der Browser von Teammitgliedern alle 1–2 Minuten ein
+  Lebenszeichen, solange das Forum offen ist. Wer nur den Tab offen hat, bleibt also in der Liste;
+  nach dem Schließen verschwindet er nach `team_online_minutes`.
 - Mitglieder, die in ihrem Profil „Profil und Präsenz verbergen“ aktiviert haben, erscheinen nicht.
 - Auf Bildschirmen unter 1200 px steht die Box über der Themenliste.
 

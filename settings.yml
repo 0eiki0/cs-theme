@@ -125,6 +125,11 @@ team_online_minutes:
   max: 60
   description: "Als online gilt, wer in den letzten X Minuten im Forum aktiv war."
 
+team_online_keep_alive:
+  type: bool
+  default: true
+  description: "Teammitglieder bleiben in der Box, solange sie das Forum in einem Tab offen haben – auch ohne Aktivität. Danach verschwinden sie nach team_online_minutes."
+
 team_online_mobile:
   type: bool
   default: false
