@@ -28,6 +28,13 @@ status_url:
   default: ""
   description: "Adresse eures eigenen Status-Endpunkts (status.php aus dem Ordner server/), z. B. https://cubeside.de/forum/status.php. Leer = kein Status und keine Köpfe."
 
+refresh_interval:
+  type: integer
+  default: 30
+  min: 0
+  max: 600
+  description: "Spielerzahl und Köpfe automatisch alle X Sekunden aktualisieren (mindestens 10, 0 = aus). Pausiert, solange der Tab im Hintergrund ist."
+
 show_player_heads:
   type: bool
   default: true

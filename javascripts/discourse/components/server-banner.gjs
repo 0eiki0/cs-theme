@@ -6,7 +6,7 @@ import { service } from "@ember/service";
 import icon from "discourse/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 
-const STATUS_CACHE_MS = 30 * 1000;
+const MIN_REFRESH_SECONDS = 10;
 let statusCache = null;
 let pendingRequest = null;
 
@@ -14,8 +14,20 @@ function statusUrl() {
   return (settings.status_url || "").trim();
 }
 
+// Aktualisierungsintervall in ms (0 = keine automatische Aktualisierung)
+function refreshMs() {
+  const seconds = parseInt(settings.refresh_interval, 10) || 0;
+  return seconds > 0 ? Math.max(seconds, MIN_REFRESH_SECONDS) * 1000 : 0;
+}
+
+// Wie alt zwischengespeicherte Daten höchstens sein dürfen
+function maxAgeMs() {
+  const interval = refreshMs();
+  return interval > 0 ? interval - 1000 : 30 * 1000;
+}
+
 function fetchStatus() {
-  if (statusCache && Date.now() - statusCache.time < STATUS_CACHE_MS) {
+  if (statusCache && Date.now() - statusCache.time < maxAgeMs()) {
     return Promise.resolve(statusCache.data);
   }
   pendingRequest ??= requestStatus().finally(() => (pendingRequest = null));
@@ -26,6 +38,7 @@ async function requestStatus() {
   try {
     const response = await fetch(statusUrl(), {
       credentials: "omit",
+      cache: "no-cache",
       headers: { Accept: "application/json" },
     });
     if (!response.ok) {
@@ -59,6 +72,8 @@ export default class ServerBanner extends Component {
   @tracked copied = false;
   @tracked status = statusCache?.data ?? null;
 
+  refreshTimer = null;
+
   constructor() {
     super(...arguments);
     if (
@@ -66,7 +81,37 @@ export default class ServerBanner extends Component {
       (settings.show_player_count || settings.show_player_heads)
     ) {
       this.loadStatus();
+      this.startAutoRefresh();
     }
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    clearInterval(this.refreshTimer);
+    document.removeEventListener("visibilitychange", this.onVisibilityChange);
+  }
+
+  startAutoRefresh() {
+    const interval = refreshMs();
+    if (!interval) {
+      return;
+    }
+    this.refreshTimer = setInterval(this.refresh, interval);
+    document.addEventListener("visibilitychange", this.onVisibilityChange);
+  }
+
+  // Nur aktualisieren, wenn der Tab sichtbar ist und das Banner angezeigt wird
+  @action
+  refresh() {
+    if (document.visibilityState === "visible" && this.shouldShow) {
+      this.loadStatus();
+    }
+  }
+
+  // Beim Zurückkehren in den Tab sofort aktualisieren (falls Daten veraltet)
+  @action
+  onVisibilityChange() {
+    this.refresh();
   }
 
   get shouldShow() {
@@ -256,7 +301,7 @@ export default class ServerBanner extends Component {
 
           {{#if this.showHeads}}
             <ul class="cs-heads">
-              {{#each this.visiblePlayers as |player|}}
+              {{#each this.visiblePlayers key="name" as |player|}}
                 <li class="cs-heads__item" title={{player.name}}>
                   {{#if player.link}}
                     <a

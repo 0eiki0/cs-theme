@@ -36,6 +36,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `show_banner` | Banner ein/aus |
 | `status_url` | URL eurer `status.php` (siehe unten) |
 | `show_player_count` | Live-Status & Spielerzahl ein/aus |
+| `refresh_interval` | Automatische Aktualisierung von Spielerzahl & Köpfen in Sekunden (0 = aus) |
 | `show_player_heads` | Köpfe der Online-Spieler ein/aus |
 | `max_player_heads` | Max. Anzahl Köpfe (0 = alle), Rest als „+X“ |
 | `player_head_url` | Bildquelle, `{name}` = Spielername |
@@ -82,5 +83,6 @@ es wird keine fremde API benutzt. Nur die Kopf-Bilder kommen von mineskin.eu.
 4. Die URL im Theme unter **`status_url`** eintragen. Die Seite muss über **https** erreichbar sein.
 
 Der Endpunkt speichert das Ergebnis zwischen, damit nicht jeder Forenbesuch den
-Minecraft-Server anpingt. Spielerzahl und Namen kommen aus derselben Abfrage und passen
+Minecraft-Server anpingt. `CACHE_SECONDS` in der `status.php` sollte nicht größer sein als
+`refresh_interval` im Theme, sonst kommen bei der automatischen Aktualisierung alte Daten. Spielerzahl und Namen kommen aus derselben Abfrage und passen
 deshalb immer zusammen.
