@@ -9,3 +9,4 @@ de:
     online: "Online"
     offline: "Offline"
     players: "%{count} / %{max} Spieler"
+    more_players: "%{count} weitere Spieler"

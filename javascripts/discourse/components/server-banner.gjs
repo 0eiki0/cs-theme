@@ -115,10 +115,20 @@ export default class ServerBanner extends Component {
     if (!Array.isArray(list)) {
       return [];
     }
-    return list
+    const names = list
       .map((p) => (typeof p === "string" ? p : p?.name))
-      .filter((name) => name && /^[A-Za-z0-9_.]{1,16}$/.test(name))
-      .sort((a, b) => a.localeCompare(b));
+      .map((name) =>
+        // Farbcodes (§a, §l …) entfernen, z. B. bei Proxys mit eigener Liste
+        String(name ?? "")
+          .replace(/\u00a7./g, "")
+          .trim()
+      )
+      // Java-Namen (3–16 Zeichen) sowie Bedrock-/Geyser-Namen mit Präfix
+      // (z. B. ".Name" oder "*Name", auch mit Leerzeichen) zulassen
+      .filter((name) => name.length > 0 && name.length <= 32);
+    return [...new Set(names)].sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
+    );
   }
 
   get showHeads() {
@@ -141,7 +151,20 @@ export default class ServerBanner extends Component {
   }
 
   get hiddenPlayerCount() {
-    return this.allPlayers.length - this.visiblePlayers.length;
+    // Spieler ohne sichtbaren Namen (z. B. im Vanish) über die Gesamtzahl
+    // mitzählen, damit "+X" zur angezeigten Spielerzahl passt.
+    const online = this.isOnline ? this.status?.players?.online : 0;
+    const total = Math.max(
+      this.allPlayers.length,
+      typeof online === "number" ? online : 0
+    );
+    return Math.max(0, total - this.visiblePlayers.length);
+  }
+
+  get hiddenPlayerTitle() {
+    return i18n(themePrefix("banner.more_players"), {
+      count: this.hiddenPlayerCount,
+    });
   }
 
   get copyLabel() {
@@ -278,7 +301,7 @@ export default class ServerBanner extends Component {
                 </li>
               {{/each}}
               {{#if this.hiddenPlayerCount}}
-                <li class="cs-heads__more">+{{this.hiddenPlayerCount}}</li>
+                <li class="cs-heads__more" title={{this.hiddenPlayerTitle}}>+{{this.hiddenPlayerCount}}</li>
               {{/if}}
             </ul>
           {{/if}}

@@ -9,3 +9,4 @@ en:
     online: "Online"
     offline: "Offline"
     players: "%{count} / %{max} players"
+    more_players: "%{count} more players"
