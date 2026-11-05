@@ -50,16 +50,6 @@ player_link_url:
   default: "https://stats.cubeside.de/player/{name}"
   description: "Ziel beim Klick auf einen Kopf. {name} wird durch den Spielernamen ersetzt. Leer = Köpfe sind nicht anklickbar."
 
-discord_url:
-  type: string
-  default: ""
-  description: "Link zum Discord-Server. Leer lassen, um den Button auszublenden."
-
-rules_url:
-  type: string
-  default: ""
-  description: "Link zu euren Regeln (z. B. /t/regeln/12). Leer lassen, um den Button auszublenden."
-
 banner_buttons:
   type: objects
   default: []
