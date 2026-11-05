@@ -33,6 +33,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 | `show_banner` | Banner ein/aus |
 | `show_player_count` | Live-Status & Spielerzahl ein/aus |
 | `show_player_heads` | Köpfe der Online-Spieler ein/aus |
+| `player_list_address` | Optionale Adresse nur für die Spielernamen (z. B. `brokko.cubeside.de`) |
 | `max_player_heads` | Max. Anzahl Köpfe (0 = alle), Rest als „+X“ |
 | `player_head_url` | Bildquelle, `{name}` = Spielername |
 | `discord_url` | Link zum Discord (leer = ausgeblendet) |
@@ -46,6 +47,10 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 - Ein Logo mit transparentem Hintergrund (SVG oder PNG, ca. 40 px hoch) wirkt im Header am besten.
 
 ## Spielerköpfe – Voraussetzung
+
+Liefert eine andere Adresse als die Join-Adresse die Spielerliste, diese unter
+`player_list_address` eintragen. Status und Spielerzahl kommen weiterhin von `server_ip`,
+nur die Namen von der zusätzlichen Adresse.
 
 Die Namen der Online-Spieler kommen von mcsrvstat.us. Damit die **vollständige** Liste
 verfügbar ist, muss auf eurem Server Query aktiviert sein (`server.properties`):

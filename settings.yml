@@ -28,6 +28,11 @@ show_player_heads:
   default: true
   description: "Köpfe aller Spieler, die gerade online sind, im Banner anzeigen. Der Server muss die Spielerliste freigeben (enable-query=true in der server.properties)."
 
+player_list_address:
+  type: string
+  default: ""
+  description: "Optionale Adresse, von der die Spielernamen abgefragt werden (z. B. brokko.cubeside.de). Leer = Server-IP wird verwendet."
+
 max_player_heads:
   type: integer
   default: 30
