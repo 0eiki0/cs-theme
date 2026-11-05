@@ -36,6 +36,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
 | `player_list_address` | Optionale Adresse nur für die Spielernamen (z. B. `brokko.cubeside.de`) |
 | `max_player_heads` | Max. Anzahl Köpfe (0 = alle), Rest als „+X“ |
 | `player_head_url` | Bildquelle, `{name}` = Spielername |
+| `player_link_url` | Ziel beim Klick auf einen Kopf, `{name}` = Spielername (leer = nicht klickbar) |
 | `discord_url` | Link zum Discord (leer = ausgeblendet) |
 | `rules_url` | Link zu den Regeln (leer = ausgeblendet) |
 | `corner_radius` | Eckenradius in px (0–24) |

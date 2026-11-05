@@ -45,6 +45,11 @@ player_head_url:
   default: "https://mineskin.eu/helm/{name}.png"
   description: "Bildquelle für die Köpfe. {name} wird durch den Spielernamen ersetzt."
 
+player_link_url:
+  type: string
+  default: "https://stats.cubeside.de/player/{name}"
+  description: "Ziel beim Klick auf einen Kopf. {name} wird durch den Spielernamen ersetzt. Leer = Köpfe sind nicht anklickbar."
+
 discord_url:
   type: string
   default: ""

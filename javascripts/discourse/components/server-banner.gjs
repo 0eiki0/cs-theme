@@ -134,6 +134,9 @@ export default class ServerBanner extends Component {
         "{name}",
         encodeURIComponent(name)
       ),
+      link: settings.player_link_url
+        ? settings.player_link_url.replace("{name}", encodeURIComponent(name))
+        : null,
     }));
   }
 
@@ -245,14 +248,33 @@ export default class ServerBanner extends Component {
             <ul class="cs-heads">
               {{#each this.visiblePlayers as |player|}}
                 <li class="cs-heads__item" title={{player.name}}>
-                  <img
-                    class="cs-heads__img"
-                    src={{player.url}}
-                    alt={{player.name}}
-                    width="32"
-                    height="32"
-                    loading="lazy"
-                  />
+                  {{#if player.link}}
+                    <a
+                      class="cs-heads__link"
+                      href={{player.link}}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={{player.name}}
+                    >
+                      <img
+                        class="cs-heads__img"
+                        src={{player.url}}
+                        alt={{player.name}}
+                        width="32"
+                        height="32"
+                        loading="lazy"
+                      />
+                    </a>
+                  {{else}}
+                    <img
+                      class="cs-heads__img"
+                      src={{player.url}}
+                      alt={{player.name}}
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                    />
+                  {{/if}}
                 </li>
               {{/each}}
               {{#if this.hiddenPlayerCount}}
