@@ -1,0 +1,52 @@
+server_name:
+  type: string
+  default: "Unser Minecraft-Server"
+  description: "Name des Servers, der im Banner angezeigt wird."
+
+banner_tagline:
+  type: string
+  default: "Willkommen in unserer Community – hier findest du News, Hilfe und Gleichgesinnte."
+  description: "Kurzer Untertitel unter dem Servernamen."
+
+server_ip:
+  type: string
+  default: "play.example.de"
+  description: "Server-Adresse, die Spieler mit einem Klick kopieren können."
+
+show_banner:
+  type: bool
+  default: true
+  description: "Server-Banner auf der Startseite und den Themenlisten anzeigen."
+
+show_player_count:
+  type: bool
+  default: true
+  description: "Live-Status und Spielerzahl im Banner anzeigen (über api.mcsrvstat.us)."
+
+discord_url:
+  type: string
+  default: ""
+  description: "Link zum Discord-Server. Leer lassen, um den Button auszublenden."
+
+rules_url:
+  type: string
+  default: ""
+  description: "Link zu euren Regeln (z. B. /t/regeln/12). Leer lassen, um den Button auszublenden."
+
+corner_radius:
+  type: integer
+  default: 10
+  min: 0
+  max: 24
+  description: "Eckenradius (px) für Karten, Buttons und Eingabefelder."
+
+pixel_accent:
+  type: bool
+  default: true
+  description: "Dezente Pixel-Kante (Gras-Block-Optik) unter dem Banner anzeigen."
+
+svg_icons:
+  type: list
+  list_type: compact
+  default: "fab-discord|copy|check|book"
+  description: "Icons, die das Theme benötigt (nicht ändern, außer ihr wisst, was ihr tut)."

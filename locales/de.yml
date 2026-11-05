@@ -1,0 +1,11 @@
+de:
+  theme_metadata:
+    description: "Modernes, schlichtes Theme für Minecraft-Communities."
+  banner:
+    copy_ip: "IP kopieren"
+    copied: "Kopiert!"
+    discord: "Discord"
+    rules: "Regeln"
+    online: "Online"
+    offline: "Offline"
+    players: "%{count} / %{max} Spieler"

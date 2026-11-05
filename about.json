@@ -1,0 +1,34 @@
+{
+  "name": "CS Theme",
+  "about_url": "https://github.com/0eiki0/cs-theme",
+  "license_url": "https://github.com/0eiki0/cs-theme/blob/main/LICENSE",
+  "component": false,
+  "minimum_discourse_version": "3.3.0",
+  "assets": {},
+  "color_schemes": {
+    "CS Hell": {
+      "primary": "1c2024",
+      "secondary": "ffffff",
+      "tertiary": "2f9e57",
+      "quaternary": "2f9e57",
+      "header_background": "ffffff",
+      "header_primary": "1c2024",
+      "highlight": "f2c94c",
+      "danger": "d9433e",
+      "success": "2f9e57",
+      "love": "e5484d"
+    },
+    "CS Dunkel": {
+      "primary": "e6e9ec",
+      "secondary": "121417",
+      "tertiary": "4ccb7a",
+      "quaternary": "4ccb7a",
+      "header_background": "16191d",
+      "header_primary": "e6e9ec",
+      "highlight": "c9a227",
+      "danger": "f0605a",
+      "success": "4ccb7a",
+      "love": "f2707a"
+    }
+  }
+}

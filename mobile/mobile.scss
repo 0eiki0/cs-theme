@@ -1,0 +1,34 @@
+// Mobile-Anpassungen
+.cs-banner {
+  margin: 0.75rem 0 1rem;
+
+  &__inner {
+    padding: 1.25rem 1rem;
+    gap: 0.9rem;
+  }
+
+  &__title {
+    font-size: var(--font-up-2);
+  }
+
+  &__tagline {
+    font-size: var(--font-down-1);
+  }
+
+  &__actions {
+    width: 100%;
+  }
+}
+
+.cs-ip {
+  flex: 1 1 100%;
+  justify-content: space-between;
+
+  &__label {
+    display: none;
+  }
+}
+
+.topic-list .topic-list-item:hover {
+  background: transparent;
+}
