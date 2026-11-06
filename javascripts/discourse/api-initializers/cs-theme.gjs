@@ -3,9 +3,14 @@ import ServerBanner from "../components/server-banner";
 import OnlineUsers from "../components/online-users";
 import TeamOnline from "../components/team-online";
 import startTeamHeartbeat from "../lib/team-heartbeat";
+import setupGuestPopup from "../lib/guest-popup";
 import createUnreadSectionLink from "../lib/unread-section-link";
 
 export default apiInitializer((api) => {
+  if (settings.show_guest_popup) {
+    setupGuestPopup(api);
+  }
+
   if (settings.sidebar_unread_link) {
     api.addCommunitySectionLink(createUnreadSectionLink);
   }

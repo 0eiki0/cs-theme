@@ -42,3 +42,8 @@ en:
   online_users:
     error: "Could not load the list."
     count: "%{count} online"
+  guest_popup:
+    signup: "Sign up now"
+    login: "I already have an account – log in"
+    reset_password: "Request a new password"
+    later: "Later"

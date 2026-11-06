@@ -42,3 +42,8 @@ de:
   online_users:
     error: "Liste konnte nicht geladen werden."
     count: "%{count} online"
+  guest_popup:
+    signup: "Jetzt registrieren"
+    login: "Ich habe schon ein Konto – anmelden"
+    reset_password: "Neues Passwort anfordern"
+    later: "Später"

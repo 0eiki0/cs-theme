@@ -159,6 +159,40 @@ online_users_max:
   max: 200
   description: "Maximale Anzahl angezeigter Avatare (0 = alle). Weitere erscheinen als „+X“."
 
+show_guest_popup:
+  type: bool
+  default: true
+  description: "Nicht angemeldeten Besuchern ein Popup zeigen: registrieren, anmelden oder (für Nutzer aus dem alten Forum) ein neues Passwort anfordern."
+
+guest_popup_title:
+  type: string
+  default: "Willkommen in unserem neuen Forum!"
+  description: "Überschrift des Popups."
+
+guest_popup_text:
+  type: string
+  default: "Registriere dich kostenlos, um mitzudiskutieren, Themen zu erstellen und keine News zu verpassen."
+  description: "Text unter der Überschrift."
+
+guest_popup_migration_text:
+  type: string
+  default: "Du hattest schon ein Konto in unserem alten Forum? Wir sind umgezogen – fordere einmal ein neues Passwort an, dann kannst du dich wie gewohnt anmelden."
+  description: "Hinweis für Nutzer aus dem alten Forum, mit Button „Neues Passwort anfordern“. Leer lassen, um den Hinweis auszublenden."
+
+guest_popup_delay_seconds:
+  type: integer
+  default: 5
+  min: 0
+  max: 120
+  description: "Nach wie vielen Sekunden das Popup erscheint."
+
+guest_popup_repeat_days:
+  type: integer
+  default: 7
+  min: 0
+  max: 365
+  description: "Nach dem Schließen erst nach X Tagen wieder anzeigen (0 = bei jedem Besuch)."
+
 sidebar_unread_link:
   type: bool
   default: true
@@ -189,5 +223,5 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "copy|check"
-  description: "Icons für den IP-Button. Icons der banner_buttons lädt Discourse automatisch."
+  default: "copy|check|user-plus|key|right-to-bracket|bell"
+  description: "Icons, die das Theme selbst verwendet (IP-Button, Gäste-Popup, Seitenleiste). Icons der banner_buttons lädt Discourse automatisch."

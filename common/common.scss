@@ -1104,3 +1104,45 @@ textarea,
     font-weight: 700;
   }
 }
+
+// ---------- Willkommens-Popup für Gäste ----------
+.cs-guest-modal {
+  .d-modal__container {
+    max-width: 30rem;
+  }
+
+  &__text {
+    margin: 0 0 1.25rem;
+    font-size: var(--font-0);
+    line-height: 1.5;
+  }
+
+  &__signup {
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__migration {
+    margin-top: 1.25rem;
+    padding: 0.9rem 1rem;
+    border-radius: var(--cs-radius-sm);
+    border-left: 3px solid var(--tertiary);
+    background: var(--primary-very-low);
+
+    p {
+      margin: 0 0 0.75rem;
+      color: var(--primary-high);
+      font-size: var(--font-down-1);
+      line-height: 1.5;
+    }
+  }
+
+  .d-modal__footer {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__later {
+    margin-left: auto;
+  }
+}

@@ -53,6 +53,11 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `online_users_title` | Überschrift der Box |
 | `online_users_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war |
 | `online_users_max` | Maximale Anzahl Avatare, Rest als „+X“ |
+| `show_guest_popup` | Willkommens-Popup für nicht angemeldete Besucher |
+| `guest_popup_title` / `guest_popup_text` | Überschrift und Text des Popups |
+| `guest_popup_migration_text` | Hinweis für Nutzer aus dem alten Forum mit Button „Neues Passwort anfordern“ (leer = aus) |
+| `guest_popup_delay_seconds` | Verzögerung in Sekunden |
+| `guest_popup_repeat_days` | Nach dem Schließen erst nach X Tagen wieder anzeigen |
 | `sidebar_unread_link` | Punkt „Ungelesene Beiträge“ ganz oben in der Seitenleiste, sobald es Neues gibt |
 | `sidebar_unread_link_text` | Beschriftung dieses Punkts |
 | `highlight_unread` | Neues hervorheben: ungelesene Themen, ungelesene Beiträge („Neu“), ungelesene Benachrichtigungen und Zähler am Avatar |
