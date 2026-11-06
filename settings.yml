@@ -198,6 +198,14 @@ sidebar_unread_link:
   default: true
   description: "In der Seitenleiste ganz oben einen Punkt „Ungelesene Beiträge“ mit Zähler anzeigen, sobald es neue Themen oder ungelesene Beiträge gibt."
 
+sidebar_unread_mode:
+  type: enum
+  default: alle
+  choices:
+    - alle
+    - verfolgt
+  description: "alle = wie im alten Forum: alle Themen mit Beiträgen, die man noch nicht gelesen hat (ab dem ersten Besuch im neuen Forum). verfolgt = Discourse-Standard: neue Themen und ungelesene Antworten nur in verfolgten/beobachteten Themen."
+
 sidebar_unread_link_text:
   type: string
   default: "Ungelesene Beiträge"

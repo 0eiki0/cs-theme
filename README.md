@@ -59,6 +59,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `guest_popup_delay_seconds` | Verzögerung in Sekunden |
 | `guest_popup_repeat_days` | Nach dem Schließen erst nach X Tagen wieder anzeigen |
 | `sidebar_unread_link` | Punkt „Ungelesene Beiträge“ ganz oben in der Seitenleiste, sobald es Neues gibt |
+| `sidebar_unread_mode` | `alle` = alles Ungelesene wie im alten Forum (Liste „Ungesehen“), `verfolgt` = Discourse-Standard |
 | `sidebar_unread_link_text` | Beschriftung dieses Punkts |
 | `highlight_unread` | Neues hervorheben: ungelesene Themen, ungelesene Beiträge („Neu“), ungelesene Benachrichtigungen und Zähler am Avatar |
 | `corner_radius` | Eckenradius in px (0–24) |

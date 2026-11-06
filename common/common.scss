@@ -239,8 +239,22 @@ textarea,
     }
   }
 
+  // Liste "Ungesehen": jedes Thema dort hat ungelesene Beiträge
+  body.cs-route-unseen .topic-list-item {
+    background: rgba(var(--tertiary-rgb), 0.05);
+
+    > td:first-child {
+      box-shadow: inset 3px 0 0 var(--tertiary);
+    }
+
+    .main-link .title {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  }
+
   // Bereits komplett gelesene Themen treten zurück
-  .topic-list-item.visited:not(.unread-posts):not(.unseen-topic),
+  body:not(.cs-route-unseen) .topic-list-item.visited:not(.unread-posts):not(.unseen-topic),
   .latest-topic-list-item.visited:not(:has(.badge-notification)) {
     .main-link .title {
       color: var(--primary-medium);
