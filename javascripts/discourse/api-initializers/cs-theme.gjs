@@ -6,8 +6,10 @@ import startTeamHeartbeat from "../lib/team-heartbeat";
 
 export default apiInitializer((api) => {
   if (settings.show_online_users) {
-    // Über der Fußleiste; erscheint wie diese erst am Ende einer Seite
-    api.renderInOutlet("above-footer", OnlineUsers);
+    // Direkt unter dem Seiteninhalt (innerhalb des Hauptbereichs, damit die
+    // Box im Layout mit Seitenleiste richtig sitzt). Erscheint wie die
+    // Fußleiste erst, wenn das Ende einer Seite erreicht ist.
+    api.renderInOutlet("main-outlet-bottom", OnlineUsers);
   }
 
   if (settings.show_banner) {

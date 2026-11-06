@@ -92,7 +92,7 @@ Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in
 
 ## Gerade online
 
-Über der Fußleiste zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
+Am Seitenende (unter dem Inhalt, über „Bereitgestellt von Discourse“) zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
 Minuten im Forum aktiv waren, als Avatare (Klick öffnet die Benutzerkarte). Die Daten
 kommen aus der automatischen Gruppe `trust_level_0`, in der alle Nutzer sind.
 

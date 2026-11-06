@@ -106,7 +106,7 @@ export default class OnlineUsers extends Component {
 
   <template>
     {{#if this.shouldShow}}
-      <section class="cs-online wrap" aria-label={{this.title}}>
+      <section class="cs-online" aria-label={{this.title}}>
         <div class="cs-online__header">
           <h2 class="cs-online__title">
             <span class="cs-online__dot"></span>
