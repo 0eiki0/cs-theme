@@ -63,3 +63,5 @@ de:
     time_until: "%{time} Uhr bis %{date}"
     running: "läuft"
     none: "Keine anstehenden Termine."
+    title: "Kalender"
+    open_new_tab: "In neuem Tab öffnen"

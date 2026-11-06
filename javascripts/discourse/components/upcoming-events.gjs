@@ -1,4 +1,6 @@
 import Component from "@glimmer/component";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
 import { service } from "@ember/service";
 import icon from "discourse/helpers/d-icon";
 import { i18n } from "discourse-i18n";
@@ -59,12 +61,20 @@ export default class UpcomingEvents extends Component {
     return i18n(themePrefix("calendar.none"));
   }
 
+  // Eigener Link aus den Einstellungen, sonst der Kalender selbst
   get link() {
-    return calendarFeed.calendarLink;
+    return calendarFeed.customLink || calendarFeed.pageUrl;
   }
 
-  get linkTarget() {
-    return calendarFeed.calendarLinkIsExternal ? "_blank" : null;
+  // Ohne eigenen Link öffnet ein Klick den Kalender im Forum.
+  // Strg-/Cmd-Klick öffnet ihn wie gewohnt in einem neuen Tab.
+  @action
+  openCalendar(event) {
+    if (calendarFeed.customLink || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+    event.preventDefault();
+    calendarFeed.open();
   }
 
   <template>
@@ -75,8 +85,7 @@ export default class UpcomingEvents extends Component {
           {{#if this.link}}
             <a
               href={{this.link}}
-              target={{this.linkTarget}}
-              rel={{if this.linkTarget "noopener"}}
+              {{on "click" this.openCalendar}}
             >{{this.title}}</a>
           {{else}}
             {{this.title}}
@@ -86,20 +95,27 @@ export default class UpcomingEvents extends Component {
         {{#if this.items.length}}
           <ul class="cs-events__list">
             {{#each this.items key="key" as |item|}}
-              <li class="cs-events__item" title={{item.tooltip}}>
-                <span class="cs-events__date --{{item.slug}}">
-                  <span class="cs-events__day">{{item.badge.day}}</span>
-                  <span class="cs-events__month">{{item.badge.month}}</span>
-                </span>
-                <span class="cs-events__info">
-                  <span class="cs-events__name">{{item.title}}</span>
-                  <span class="cs-events__meta">
-                    {{#if item.running}}
-                      <span class="cs-events__running">{{this.runningLabel}}</span>
-                    {{/if}}
-                    {{item.range}}
+              <li class="cs-events__item">
+                <a
+                  class="cs-events__link"
+                  href={{this.link}}
+                  title={{item.tooltip}}
+                  {{on "click" this.openCalendar}}
+                >
+                  <span class="cs-events__date --{{item.slug}}">
+                    <span class="cs-events__day">{{item.badge.day}}</span>
+                    <span class="cs-events__month">{{item.badge.month}}</span>
                   </span>
-                </span>
+                  <span class="cs-events__info">
+                    <span class="cs-events__name">{{item.title}}</span>
+                    <span class="cs-events__meta">
+                      {{#if item.running}}
+                        <span class="cs-events__running">{{this.runningLabel}}</span>
+                      {{/if}}
+                      {{item.range}}
+                    </span>
+                  </span>
+                </a>
               </li>
             {{/each}}
           </ul>

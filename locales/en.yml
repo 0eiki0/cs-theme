@@ -63,3 +63,5 @@ en:
     time_until: "%{time} until %{date}"
     running: "ongoing"
     none: "No upcoming events."
+    title: "Calendar"
+    open_new_tab: "Open in new tab"

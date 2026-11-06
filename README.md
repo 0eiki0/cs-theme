@@ -67,7 +67,8 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
 | `calendar_url` | Adresse des Kalenders (cs-cal). Leer = Kalender-Funktionen aus |
 | `calendar_groups` | Nur für diese Gruppen Termine laden (leer = alle Angemeldeten) |
-| `calendar_team_link` / `calendar_buddy_link` | Ziel beim Klick auf einen Termin, z. B. das Forum-Thema mit dem Kalender |
+| `show_calendar_sidebar_link` / `calendar_sidebar_text` | Punkt „Kalender“ in der Seitenleiste und seine Beschriftung |
+| `calendar_team_link` / `calendar_buddy_link` | Optional: anderes Ziel beim Klick auf Termine (leer = Kalender-Fenster im Forum) |
 | `show_calendar_banner` | Hinweis-Banner, wenn ein Termin bald beginnt |
 | `calendar_banner_hours` | So viele Stunden vorher erscheint das Banner (Standard 24) |
 | `calendar_banner_categories` | Kategorien, für die das Banner erscheint |
@@ -101,11 +102,14 @@ Arbeitet mit dem Kalender [cs-cal](https://github.com/0eiki0/cs-cal) zusammen
 entscheidet anhand ihrer **Forum-Gruppen**, welche Termine sie sehen
 (Team: alle, Buddies: ohne „Intern“, alle anderen: keine).
 
+- **Punkt „Kalender“ in der Seitenleiste:** öffnet den Kalender als großes
+  Fenster direkt im Forum (Team: bearbeiten, Buddies: nur lesen). Nur sichtbar
+  für Nutzer mit Kalender-Zugriff. Direktlink zum Teilen: `https://cubeside.de/forum/#kalender`.
 - **Banner „Bald geht's los“:** erscheint auf jeder Seite `calendar_banner_hours`
   Stunden vor Beginn eines Termins. Mit ✕ wegklicken – dann bleibt er in diesem
   Browser ausgeblendet. Wird der Termin verschoben, erscheint er erneut.
 - **Box „Nächste Termine“:** rechts neben der Themenliste über „Team Online“,
-  mit Datum in der Farbe der Kalender-Kategorie.
+  mit Datum in der Farbe der Kalender-Kategorie. Ein Klick öffnet den Kalender.
 - **Kalender in Beiträgen:** `<iframe src="https://cal.cubeside.de/team" …>` wird
   automatisch in voller Breite und passender Höhe angezeigt (ohne Scrollbalken).
   `https://cal.cubeside.de/` muss dafür unter *allowed iframes* stehen.

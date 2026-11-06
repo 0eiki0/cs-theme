@@ -233,7 +233,7 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "copy|check|user-plus|key|right-to-bracket|bell|calendar-days|xmark"
+  default: "copy|check|user-plus|key|right-to-bracket|bell|calendar-days|xmark|up-right-from-square"
   description: "Icons, die das Theme selbst verwendet (IP-Button, Gäste-Popup, Seitenleiste, Kalender). Icons der banner_buttons lädt Discourse automatisch."
 
 calendar_url:
@@ -250,7 +250,7 @@ calendar_groups:
 calendar_team_link:
   type: string
   default: ""
-  description: "Ziel beim Klick auf einen Termin für das Team, z. B. das Forum-Thema mit dem eingebetteten Team-Kalender (/t/team-kalender/123). Leer = Kalender direkt öffnen."
+  description: "Optional: Ziel beim Klick auf einen Termin in Banner/Box für das Team, z. B. ein Forum-Thema (/t/team-kalender/123). Leer = Kalender als Fenster im Forum öffnen (empfohlen)."
 
 calendar_buddy_link:
   type: string
@@ -261,6 +261,16 @@ show_calendar_banner:
   type: bool
   default: true
   description: "Hinweis-Banner oben auf jeder Seite, wenn ein Termin bald beginnt. Lässt sich wegklicken."
+
+show_calendar_sidebar_link:
+  type: bool
+  default: true
+  description: "Punkt „Kalender“ in der Seitenleiste. Nur sichtbar für Nutzer mit Kalender-Zugriff; öffnet den Kalender als großes Fenster im Forum. Direktlink: /forum/#kalender"
+
+calendar_sidebar_text:
+  type: string
+  default: "Kalender"
+  description: "Beschriftung des Punkts in der Seitenleiste und Titel des Kalender-Fensters."
 
 calendar_banner_hours:
   type: integer

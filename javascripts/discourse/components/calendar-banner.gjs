@@ -70,12 +70,20 @@ export default class CalendarBanner extends Component {
       }));
   }
 
+  // Eigener Link aus den Einstellungen, sonst der Kalender selbst
   get link() {
-    return calendarFeed.calendarLink;
+    return calendarFeed.customLink || calendarFeed.pageUrl;
   }
 
-  get linkTarget() {
-    return calendarFeed.calendarLinkIsExternal ? "_blank" : null;
+  // Ohne eigenen Link öffnet ein Klick den Kalender im Forum.
+  // Strg-/Cmd-Klick öffnet ihn wie gewohnt in einem neuen Tab.
+  @action
+  openCalendar(event) {
+    if (calendarFeed.customLink || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+    event.preventDefault();
+    calendarFeed.open();
   }
 
   get label() {
@@ -116,8 +124,7 @@ export default class CalendarBanner extends Component {
                 <a
                   class="cs-cal-banner__title"
                   href={{this.link}}
-                  target={{this.linkTarget}}
-                  rel={{if this.linkTarget "noopener"}}
+                  {{on "click" this.openCalendar}}
                 >{{item.title}}</a>
               {{else}}
                 <strong class="cs-cal-banner__title">{{item.title}}</strong>

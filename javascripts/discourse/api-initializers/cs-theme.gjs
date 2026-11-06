@@ -7,6 +7,8 @@ import setupGuestPopup from "../lib/guest-popup";
 import createUnreadSectionLink from "../lib/unread-section-link";
 import CalendarBanner from "../components/calendar-banner";
 import UpcomingEvents from "../components/upcoming-events";
+import CalendarModal from "../components/calendar-modal";
+import createCalendarSectionLink from "../lib/calendar-section-link";
 import calendarFeed, { normalizeCalendarUrl } from "../lib/calendar-feed";
 
 // calendar_groups: leer = alle Angemeldeten. Einträge können Gruppennamen
@@ -68,12 +70,57 @@ function setupCalendar(api) {
   // Banner und Box "Nächste Termine" nur für angemeldete Nutzer
   const user = api.getCurrentUser();
   const wantsFeed =
-    settings.show_calendar_banner || settings.show_upcoming_events;
+    settings.show_calendar_banner ||
+    settings.show_upcoming_events ||
+    settings.show_calendar_sidebar_link;
   if (!user || !wantsFeed || !inCalendarGroups(user)) {
     return;
   }
 
   calendarFeed.start(calendarUrl);
+
+  // Kalender als großes Fenster im Forum öffnen
+  const modal = api.container.lookup("service:modal");
+  calendarFeed.openHandler = () => {
+    if (modal.activeModal?.component !== CalendarModal) {
+      modal.show(CalendarModal);
+    }
+  };
+
+  // Direktlink: https://…/forum/#kalender öffnet den Kalender
+  const openFromHash = () => {
+    if (window.location.hash === "#kalender") {
+      history.replaceState(
+        history.state,
+        "",
+        window.location.pathname + window.location.search
+      );
+      calendarFeed.open();
+    }
+  };
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+
+  if (settings.show_calendar_sidebar_link) {
+    api.addCommunitySectionLink(createCalendarSectionLink);
+
+    // Klick auf den Seitenleisten-Punkt abfangen, bevor Discourse navigiert
+    document.addEventListener(
+      "click",
+      (event) => {
+        const link = event.target.closest?.(
+          '[data-list-item-name="cs-calendar"] a'
+        );
+        if (!link || event.button !== 0 || event.ctrlKey || event.metaKey) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        calendarFeed.open();
+      },
+      true
+    );
+  }
 
   if (settings.show_calendar_banner) {
     // Ganz oben, damit der Hinweis auf jeder Seite auffällt

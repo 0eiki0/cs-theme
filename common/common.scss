@@ -1320,16 +1320,30 @@ textarea,
   }
 
   &__item {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
     min-width: 0;
     margin: 0;
-    padding: 0.4rem 0;
     animation: cs-head-in 250ms ease-out backwards;
 
     & + & {
       border-top: var(--cs-border);
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+    margin: 0 -0.4rem;
+    padding: 0.4rem;
+    border-radius: var(--cs-radius-sm);
+    color: var(--primary);
+    transition: background var(--cs-transition);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--primary-very-low);
+      color: var(--primary);
     }
   }
 
@@ -1439,6 +1453,52 @@ textarea,
       order: -1;
       margin: 0 0 1rem;
     }
+  }
+}
+
+// ---------- Seitenleiste: "Kalender" ----------
+// Erst sichtbar, wenn der Kalender Zugriff bestätigt hat
+body:not(.cs-has-calendar)
+  .sidebar-section-link-wrapper[data-list-item-name="cs-calendar"] {
+  display: none;
+}
+
+// ---------- Kalender-Fenster im Forum ----------
+.cs-cal-modal {
+  .d-modal__container {
+    width: min(1200px, 96vw);
+    max-width: none;
+    height: min(900px, 92vh);
+    max-height: none;
+  }
+
+  .d-modal__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .d-modal__footer {
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+  }
+
+  &__newtab {
+    color: var(--primary-medium);
+    font-size: var(--font-down-1);
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+
+  &__frame {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
   }
 }
 

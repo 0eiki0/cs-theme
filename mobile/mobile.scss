@@ -52,3 +52,14 @@
   padding-left: 0.75rem;
   gap: 0.5rem;
 }
+
+// Kalender-Fenster mobil bildschirmfüllend
+.cs-cal-modal .d-modal__container {
+  width: 100vw;
+  height: 100dvh;
+  border-radius: 0;
+}
+
+.cs-cal-modal .d-modal__footer {
+  display: none;
+}

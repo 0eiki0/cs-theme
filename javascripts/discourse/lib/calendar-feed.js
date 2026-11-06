@@ -44,6 +44,8 @@ class CalendarFeed {
   started = false;
   origin = null;
   baseUrl = null;
+  // Wird im Initializer gesetzt (braucht den Modal-Service)
+  openHandler = null;
 
   /** URL des Kalenders ohne / am Ende, oder null wenn ungültig */
   static normalizeUrl(url) {
@@ -94,26 +96,36 @@ class CalendarFeed {
       : [];
     this.loaded = true;
     this.now = Date.now();
+    // Blendet u. a. den Seitenleisten-Punkt "Kalender" ein
+    document.body.classList.toggle("cs-has-calendar", this.role !== null);
   };
 
-  /** Link zum passenden Kalender (Forum-Thema oder direkt) */
-  get calendarLink() {
+  /** Kalender-Seite passend zur Rolle; vor der ersten Antwort die Startseite (leitet selbst weiter) */
+  get pageUrl() {
+    if (!this.baseUrl) {
+      return null;
+    }
+    if (this.role === "team") {
+      return `${this.baseUrl}/team`;
+    }
+    if (this.role === "buddy") {
+      return `${this.baseUrl}/buddy`;
+    }
+    return `${this.baseUrl}/`;
+  }
+
+  /** Kalender im Forum öffnen (großes Fenster) */
+  open() {
+    this.openHandler?.();
+  }
+
+  /** Eigener Link aus den Einstellungen (z. B. Forum-Thema) oder null */
+  get customLink() {
     const custom =
       this.role === "team"
         ? settings.calendar_team_link
         : settings.calendar_buddy_link;
-    if (custom && custom.trim()) {
-      return custom.trim();
-    }
-    if (!this.baseUrl) {
-      return null;
-    }
-    return `${this.baseUrl}/${this.role === "team" ? "team" : "buddy"}`;
-  }
-
-  get calendarLinkIsExternal() {
-    const link = this.calendarLink || "";
-    return /^https?:\/\//.test(link) && !link.startsWith(window.location.origin);
+    return custom && custom.trim() ? custom.trim() : null;
   }
 }
 
