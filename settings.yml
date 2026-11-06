@@ -135,6 +135,30 @@ team_online_mobile:
   default: false
   description: "Box auch in der mobilen Ansicht anzeigen (dann über der Themenliste)."
 
+show_online_users:
+  type: bool
+  default: true
+  description: "Box „Gerade online“ über der Fußleiste mit allen Nutzern, die gerade im Forum aktiv sind (nur für angemeldete Nutzer sichtbar)."
+
+online_users_title:
+  type: string
+  default: "Gerade online"
+  description: "Überschrift der Box."
+
+online_users_minutes:
+  type: integer
+  default: 5
+  min: 1
+  max: 60
+  description: "Als online gilt, wer in den letzten X Minuten im Forum aktiv war."
+
+online_users_max:
+  type: integer
+  default: 60
+  min: 0
+  max: 200
+  description: "Maximale Anzahl angezeigter Avatare (0 = alle). Weitere erscheinen als „+X“."
+
 highlight_unread:
   type: bool
   default: true

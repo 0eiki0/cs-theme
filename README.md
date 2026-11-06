@@ -49,6 +49,10 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `team_online_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war (Standard 5) |
 | `team_online_keep_alive` | Teammitglieder bleiben in der Box, solange ihr Forum-Tab offen ist |
 | `team_online_mobile` | Box auch mobil anzeigen |
+| `show_online_users` | Box „Gerade online“ über der Fußleiste |
+| `online_users_title` | Überschrift der Box |
+| `online_users_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war |
+| `online_users_max` | Maximale Anzahl Avatare, Rest als „+X“ |
 | `highlight_unread` | Ungelesene Themen hervorheben, gelesene dezenter darstellen |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
@@ -85,6 +89,17 @@ Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in
   nach dem Schließen verschwindet er nach `team_online_minutes`.
 - Mitglieder, die in ihrem Profil „Profil und Präsenz verbergen“ aktiviert haben, erscheinen nicht.
 - Auf Bildschirmen unter 1200 px steht die Box über der Themenliste.
+
+## Gerade online
+
+Über der Fußleiste zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
+Minuten im Forum aktiv waren, als Avatare (Klick öffnet die Benutzerkarte). Die Daten
+kommen aus der automatischen Gruppe `trust_level_0`, in der alle Nutzer sind.
+
+- Nur für **angemeldete** Nutzer sichtbar (Gäste dürfen die Liste nicht abrufen).
+- Erscheint wie die Fußleiste selbst erst, wenn das Ende einer Seite erreicht ist.
+- Nutzer mit „Profil und Präsenz verbergen“ erscheinen nicht.
+- Es werden höchstens die 200 zuletzt aktiven Nutzer geprüft; sind alle online, steht „200+“.
 
 ## Empfehlungen
 

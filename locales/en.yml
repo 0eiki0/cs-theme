@@ -39,3 +39,5 @@ en:
     more_players: "%{count} more players"
   team_online:
     nobody: "No team members are online right now."
+  online_users:
+    count: "%{count} online"
