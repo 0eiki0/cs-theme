@@ -1163,3 +1163,300 @@ textarea,
     margin-left: auto;
   }
 }
+
+// =============================================================
+//  Kalender (cs-cal): Banner, "Nächste Termine", eingebettete Kalender
+// =============================================================
+
+// Farben der Kalender-Kategorien (wie im Kalender selbst)
+.--saisonevent { --cs-cal-color: #e03131; }
+.--event { --cs-cal-color: #2f9e44; }
+.--mottomonat { --cs-cal-color: #1c7ed6; }
+.--shop-specials { --cs-cal-color: #9c36b5; }
+.--intern { --cs-cal-color: #f08c00; }
+.--sonstiges { --cs-cal-color: #868e96; }
+
+// Unsichtbare Datenquelle
+.cs-cal-feed {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  visibility: hidden;
+}
+
+// Kategorie-Etikett
+.cs-cal-tag {
+  display: inline-block;
+  padding: 0.05em 0.55em;
+  border-radius: 999px;
+  background: var(--cs-cal-color, var(--primary-medium));
+  color: #fff;
+  font-size: var(--font-down-2);
+  font-weight: 600;
+  line-height: 1.6;
+  vertical-align: 0.1em;
+  white-space: nowrap;
+}
+
+// ---------- Banner "Bald geht's los" ----------
+.cs-cal-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.6rem 0.7rem 1rem;
+    border: var(--cs-border);
+    border-left: 4px solid var(--cs-cal-color, var(--tertiary));
+    border-radius: var(--cs-radius);
+    background:
+      linear-gradient(
+        90deg,
+        rgba(var(--highlight-rgb), 0.18) 0%,
+        transparent 70%
+      ),
+      var(--secondary);
+    box-shadow: var(--cs-shadow);
+    animation: cs-cal-in 300ms ease-out backwards;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    color: var(--cs-cal-color, var(--tertiary));
+    font-size: var(--font-up-1);
+    line-height: 1;
+  }
+
+  &__text {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  &__label {
+    margin-right: 0.35em;
+    font-weight: 700;
+  }
+
+  &__title {
+    margin-right: 0.35em;
+    font-weight: 700;
+    color: var(--primary);
+
+    &:is(a):hover {
+      color: var(--tertiary);
+    }
+  }
+
+  &__when {
+    margin-left: 0.35em;
+    color: var(--primary-high);
+  }
+
+  &__close {
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding: 0.35rem 0.5rem;
+    color: var(--primary-medium);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--primary);
+      background: var(--primary-very-low);
+    }
+  }
+}
+
+@keyframes cs-cal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+// ---------- Box "Nächste Termine" ----------
+.cs-events {
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+  padding: 1.1rem 1rem 0.75rem;
+  border: var(--cs-border);
+  border-radius: var(--cs-radius);
+  background: var(--secondary);
+  box-shadow: var(--cs-shadow);
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    font-size: var(--font-0);
+    font-weight: 700;
+
+    .d-icon {
+      color: var(--tertiary);
+    }
+
+    a {
+      color: var(--primary);
+
+      &:hover {
+        color: var(--tertiary);
+      }
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0.4rem 0;
+    animation: cs-head-in 250ms ease-out backwards;
+
+    & + & {
+      border-top: var(--cs-border);
+    }
+  }
+
+  // Datums-Kästchen mit Kategorie-Farbe
+  &__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: var(--cs-radius-sm);
+    background: var(--cs-cal-color, var(--tertiary));
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__day {
+    font-size: var(--font-up-1);
+    font-weight: 700;
+  }
+
+  &__month {
+    margin-top: 0.1rem;
+    font-size: var(--font-down-3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-weight: 600;
+    font-size: var(--font-down-1);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    color: var(--primary-medium);
+    font-size: var(--font-down-2);
+  }
+
+  &__running {
+    margin-right: 0.3em;
+    padding: 0 0.4em;
+    border-radius: 999px;
+    background: rgba(var(--success-rgb), 0.15);
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  &__empty {
+    margin: 0 0 0.35rem;
+    color: var(--primary-medium);
+    font-size: var(--font-down-1);
+  }
+}
+
+// Rechte Spalte: "Nächste Termine" oben, "Team Online" darunter
+@media (min-width: 1201px) {
+  .list-container .row:has(> .cs-events) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 1.5rem;
+    align-items: start;
+
+    > #list-area {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      min-width: 0;
+    }
+
+    > .cs-events {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    > .cs-team {
+      grid-column: 2;
+      grid-row: 2;
+      width: auto;
+      margin-top: 1rem;
+      position: static;
+    }
+  }
+}
+
+// Schmalere Bildschirme: Box über der Liste
+@media (max-width: 1200px) {
+  .list-container .row:has(> .cs-events) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    > .cs-events {
+      order: -1;
+      margin: 0 0 1rem;
+    }
+  }
+}
+
+// ---------- Eingebettete Kalender in Beiträgen ----------
+iframe.cs-cal-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+// Themen mit Kalender breiter darstellen (Discourse-Standard: 690px)
+body:has(.topic-post iframe.cs-cal-frame) {
+  --topic-body-width: 1000px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-cal-banner__item,
+  .cs-events__item {
+    animation: none;
+  }
+}

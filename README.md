@@ -11,6 +11,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
   - **Köpfe aller Online-Spieler** (über [mineskin.eu](https://mineskin.eu))
   - **Frei konfigurierbare Buttons** (Discord, Regeln, Shop …) mit Icon-Auswahl
   - Dezente **Pixel-Kante** in Gras-Block-Optik (abschaltbar)
+- **Kalender** (mit [cs-cal](https://github.com/0eiki0/cs-cal)): Hinweis-Banner vor Terminen, Box „Nächste Termine“, eingebettete Kalender mit automatischer Höhe
 - **Team Online:** Box rechts neben der Themenliste mit allen Teammitgliedern, die gerade im Forum aktiv sind
 - Glasiger, schlanker Header, ruhige Themenliste, abgerundete Karten
 - Einheitliche Eckenradien (einstellbar), sanfte Hover-Effekte, Fokus-Ringe
@@ -64,6 +65,16 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `highlight_unread` | Neues hervorheben: ungelesene Themen, ungelesene Beiträge („Neu“), ungelesene Benachrichtigungen und Zähler am Avatar |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
+| `calendar_url` | Adresse des Kalenders (cs-cal). Leer = Kalender-Funktionen aus |
+| `calendar_groups` | Nur für diese Gruppen Termine laden (leer = alle Angemeldeten) |
+| `calendar_team_link` / `calendar_buddy_link` | Ziel beim Klick auf einen Termin, z. B. das Forum-Thema mit dem Kalender |
+| `show_calendar_banner` | Hinweis-Banner, wenn ein Termin bald beginnt |
+| `calendar_banner_hours` | So viele Stunden vorher erscheint das Banner (Standard 24) |
+| `calendar_banner_categories` | Kategorien, für die das Banner erscheint |
+| `show_upcoming_events` | Box „Nächste Termine“ rechts neben der Themenliste |
+| `upcoming_events_title` / `upcoming_events_count` | Überschrift und Anzahl (Standard 3) |
+| `upcoming_events_include_running` | Auch laufende Termine (z. B. Mottomonate) zeigen |
+| `upcoming_events_mobile` | Box auch mobil anzeigen |
 
 ## Buttons im Banner
 
@@ -82,6 +93,26 @@ und löschen.
 
 **Beispiel:** Discord → Link `https://discord.gg/…`, Icon „discord“, neuer Tab ✓ ·
 Regeln → Link `/t/regeln/12`, Icon „book“.
+
+## Kalender
+
+Arbeitet mit dem Kalender [cs-cal](https://github.com/0eiki0/cs-cal) zusammen
+(ab Version 2.1.0). Der Kalender meldet Nutzer automatisch über das Forum an und
+entscheidet anhand ihrer **Forum-Gruppen**, welche Termine sie sehen
+(Team: alle, Buddies: ohne „Intern“, alle anderen: keine).
+
+- **Banner „Bald geht's los“:** erscheint auf jeder Seite `calendar_banner_hours`
+  Stunden vor Beginn eines Termins. Mit ✕ wegklicken – dann bleibt er in diesem
+  Browser ausgeblendet. Wird der Termin verschoben, erscheint er erneut.
+- **Box „Nächste Termine“:** rechts neben der Themenliste über „Team Online“,
+  mit Datum in der Farbe der Kalender-Kategorie.
+- **Kalender in Beiträgen:** `<iframe src="https://cal.cubeside.de/team" …>` wird
+  automatisch in voller Breite und passender Höhe angezeigt (ohne Scrollbalken).
+  `https://cal.cubeside.de/` muss dafür unter *allowed iframes* stehen.
+
+Die Termine werden über eine unsichtbare Seite des Kalenders geladen (einmal pro
+Seitenaufruf, danach alle 5 Minuten). Nutzer ohne Kalender-Zugriff sehen nichts.
+Die frühere Theme-Komponente „Kalender“ aus cs-cal wird damit nicht mehr gebraucht.
 
 ## Team Online
 

@@ -5,6 +5,85 @@ import TeamOnline from "../components/team-online";
 import startTeamHeartbeat from "../lib/team-heartbeat";
 import setupGuestPopup from "../lib/guest-popup";
 import createUnreadSectionLink from "../lib/unread-section-link";
+import CalendarBanner from "../components/calendar-banner";
+import UpcomingEvents from "../components/upcoming-events";
+import calendarFeed, { normalizeCalendarUrl } from "../lib/calendar-feed";
+
+// calendar_groups: leer = alle Angemeldeten. Einträge können Gruppennamen
+// oder IDs sein (je nach Discourse-Version speichert die Auswahl das eine
+// oder das andere).
+function inCalendarGroups(user) {
+  const wanted = String(settings.calendar_groups || "")
+    .split("|")
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+  if (wanted.length === 0) {
+    return true;
+  }
+  return (user.groups || []).some(
+    (group) =>
+      wanted.includes(String(group.id)) ||
+      wanted.includes(String(group.name || "").toLowerCase())
+  );
+}
+
+function setupCalendar(api) {
+  const calendarUrl = normalizeCalendarUrl(settings.calendar_url);
+  if (!calendarUrl) {
+    return;
+  }
+  const origin = new URL(calendarUrl).origin;
+
+  // In Beiträgen eingebettete Kalender erkennen (Breite per CSS) …
+  api.decorateCookedElement(
+    (element) => {
+      element.querySelectorAll("iframe").forEach((iframe) => {
+        if ((iframe.getAttribute("src") || "").startsWith(`${origin}/`)) {
+          iframe.classList.add("cs-cal-frame");
+        }
+      });
+    },
+    { id: "cs-calendar-frames" }
+  );
+
+  // … und ihre Höhe an den Inhalt anpassen (meldet der Kalender selbst).
+  window.addEventListener("message", (event) => {
+    const data = event.data;
+    if (
+      event.origin !== origin ||
+      !data ||
+      data.type !== "cscal:height" ||
+      typeof data.height !== "number"
+    ) {
+      return;
+    }
+    const height = Math.min(Math.max(data.height, 150), 5000);
+    document.querySelectorAll("iframe.cs-cal-frame").forEach((iframe) => {
+      if (iframe.contentWindow === event.source) {
+        iframe.style.height = `${height}px`;
+      }
+    });
+  });
+
+  // Banner und Box "Nächste Termine" nur für angemeldete Nutzer
+  const user = api.getCurrentUser();
+  const wantsFeed =
+    settings.show_calendar_banner || settings.show_upcoming_events;
+  if (!user || !wantsFeed || !inCalendarGroups(user)) {
+    return;
+  }
+
+  calendarFeed.start(calendarUrl);
+
+  if (settings.show_calendar_banner) {
+    // Ganz oben, damit der Hinweis auf jeder Seite auffällt
+    api.renderInOutlet("above-main-container", CalendarBanner);
+  }
+  if (settings.show_upcoming_events) {
+    // Wie "Team Online": vor der Themenliste, per CSS als rechte Spalte
+    api.renderInOutlet("before-list-area", UpcomingEvents);
+  }
+}
 
 export default apiInitializer((api) => {
   if (settings.show_guest_popup) {
@@ -26,6 +105,8 @@ export default apiInitializer((api) => {
       route.startsWith("discovery.unseen")
     );
   });
+
+  setupCalendar(api);
 
   if (settings.show_online_users) {
     // In der Seitenleiste unter den Kategorien

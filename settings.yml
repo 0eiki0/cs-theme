@@ -233,5 +233,71 @@ pixel_accent:
 svg_icons:
   type: list
   list_type: compact
-  default: "copy|check|user-plus|key|right-to-bracket|bell"
-  description: "Icons, die das Theme selbst verwendet (IP-Button, Gäste-Popup, Seitenleiste). Icons der banner_buttons lädt Discourse automatisch."
+  default: "copy|check|user-plus|key|right-to-bracket|bell|calendar-days|xmark"
+  description: "Icons, die das Theme selbst verwendet (IP-Button, Gäste-Popup, Seitenleiste, Kalender). Icons der banner_buttons lädt Discourse automatisch."
+
+calendar_url:
+  type: string
+  default: "https://cal.cubeside.de"
+  description: "Adresse des Kalenders (cs-cal), ohne / am Ende. Leer = Kalender-Funktionen aus. Der Kalender bestimmt anhand der Forum-Gruppen selbst, wer welche Termine sieht."
+
+calendar_groups:
+  type: list
+  list_type: group
+  default: ""
+  description: "Nur für Mitglieder dieser Gruppen Termine laden (Banner und „Nächste Termine“). Leer = für alle Angemeldeten; wer im Kalender keinen Zugriff hat, sieht dann einfach nichts."
+
+calendar_team_link:
+  type: string
+  default: ""
+  description: "Ziel beim Klick auf einen Termin für das Team, z. B. das Forum-Thema mit dem eingebetteten Team-Kalender (/t/team-kalender/123). Leer = Kalender direkt öffnen."
+
+calendar_buddy_link:
+  type: string
+  default: ""
+  description: "Wie calendar_team_link, aber für Buddies (Thema mit dem Buddy-Kalender)."
+
+show_calendar_banner:
+  type: bool
+  default: true
+  description: "Hinweis-Banner oben auf jeder Seite, wenn ein Termin bald beginnt. Lässt sich wegklicken."
+
+calendar_banner_hours:
+  type: integer
+  default: 24
+  min: 1
+  max: 168
+  description: "So viele Stunden vor Beginn erscheint das Banner."
+
+calendar_banner_categories:
+  type: list
+  list_type: compact
+  default: "Saisonevent|Event|Mottomonat|Shop-Specials|Intern|Sonstiges"
+  description: "Für welche Kalender-Kategorien das Banner erscheint. Leer = alle."
+
+show_upcoming_events:
+  type: bool
+  default: true
+  description: "Box „Nächste Termine“ rechts neben der Themenliste anzeigen (über „Team Online“)."
+
+upcoming_events_title:
+  type: string
+  default: "Nächste Termine"
+  description: "Überschrift der Box."
+
+upcoming_events_count:
+  type: integer
+  default: 3
+  min: 1
+  max: 10
+  description: "Wie viele Termine die Box zeigt."
+
+upcoming_events_include_running:
+  type: bool
+  default: false
+  description: "Auch Termine anzeigen, die schon laufen (z. B. Mottomonate). Aus = nur Termine, die noch nicht begonnen haben."
+
+upcoming_events_mobile:
+  type: bool
+  default: false
+  description: "Box auch in der mobilen Ansicht anzeigen (dann über der Themenliste)."
