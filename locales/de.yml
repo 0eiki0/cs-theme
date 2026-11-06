@@ -40,4 +40,5 @@ de:
   team_online:
     nobody: "Gerade ist niemand vom Team online."
   online_users:
+    error: "Liste konnte nicht geladen werden."
     count: "%{count} online"

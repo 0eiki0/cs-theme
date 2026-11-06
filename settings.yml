@@ -138,7 +138,7 @@ team_online_mobile:
 show_online_users:
   type: bool
   default: true
-  description: "Box „Gerade online“ am Seitenende mit allen Nutzern, die gerade im Forum aktiv sind (nur für angemeldete Nutzer sichtbar)."
+  description: "Box „Gerade online“ in der Seitenleiste unter den Kategorien mit allen Nutzern, die gerade im Forum aktiv sind (nur für angemeldete Nutzer sichtbar)."
 
 online_users_title:
   type: string
@@ -154,7 +154,7 @@ online_users_minutes:
 
 online_users_max:
   type: integer
-  default: 60
+  default: 30
   min: 0
   max: 200
   description: "Maximale Anzahl angezeigter Avatare (0 = alle). Weitere erscheinen als „+X“."

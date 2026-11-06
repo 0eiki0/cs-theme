@@ -92,12 +92,11 @@ Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in
 
 ## Gerade online
 
-Am Seitenende (unter dem Inhalt, über „Bereitgestellt von Discourse“) zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
+In der Seitenleiste unter den Kategorien zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
 Minuten im Forum aktiv waren, als Avatare (Klick öffnet die Benutzerkarte). Die Daten
 kommen aus der automatischen Gruppe `trust_level_0`, in der alle Nutzer sind.
 
 - Nur für **angemeldete** Nutzer sichtbar (Gäste dürfen die Liste nicht abrufen).
-- Erscheint wie die Fußleiste selbst erst, wenn das Ende einer Seite erreicht ist.
 - Nutzer mit „Profil und Präsenz verbergen“ erscheinen nicht.
 - Es werden höchstens die 200 zuletzt aktiven Nutzer geprüft; sind alle online, steht „200+“.
 

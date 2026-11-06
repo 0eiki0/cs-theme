@@ -40,4 +40,5 @@ en:
   team_online:
     nobody: "No team members are online right now."
   online_users:
+    error: "Could not load the list."
     count: "%{count} online"

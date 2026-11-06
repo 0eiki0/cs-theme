@@ -860,54 +860,61 @@ textarea,
   }
 }
 
-// ---------- Gerade online (über der Fußleiste) ----------
+// ---------- Gerade online (Seitenleiste) ----------
 .cs-online {
   box-sizing: border-box;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
-  padding: 1.1rem 1.25rem;
+  margin: 0.75rem 0.75rem 0.5rem;
+  padding: 0.75rem;
   border: var(--cs-border);
   border-radius: var(--cs-radius);
   background: var(--secondary);
-  box-shadow: var(--cs-shadow);
+  max-height: 40vh;
+  overflow-y: auto;
 
   &__header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
   }
 
   &__title {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
     margin: 0;
-    font-size: var(--font-0);
+    font-size: var(--font-down-1);
     font-weight: 700;
   }
 
   &__dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--success);
     box-shadow: 0 0 0 3px rgba(var(--success-rgb), 0.2);
   }
 
   &__count {
-    padding: 0.1em 0.6em;
+    margin-left: auto;
+    padding: 0.05em 0.55em;
     border-radius: 999px;
     background: var(--tertiary-very-low, var(--primary-very-low));
     color: var(--tertiary);
-    font-size: var(--font-down-1);
+    font-size: var(--font-down-2);
     font-weight: 600;
+  }
+
+  &__error {
+    margin: 0;
+    color: var(--primary-medium);
+    font-size: var(--font-down-2);
   }
 
   &__list {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -930,8 +937,8 @@ textarea,
     }
 
     img {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
     }
   }
@@ -940,14 +947,14 @@ textarea,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    height: 32px;
+    min-width: 28px;
+    height: 28px;
     margin: 0;
-    padding: 0 0.5rem;
+    padding: 0 0.45rem;
     border-radius: 999px;
     background: var(--primary-very-low);
     color: var(--primary-medium);
-    font-size: var(--font-down-1);
+    font-size: var(--font-down-2);
     font-weight: 600;
   }
 }

@@ -43,6 +43,7 @@ export default class OnlineUsers extends Component {
   @service currentUser;
 
   @tracked data = cache?.data ?? null;
+  @tracked failed = false;
   timer = null;
 
   constructor() {
@@ -61,7 +62,11 @@ export default class OnlineUsers extends Component {
   }
 
   get shouldShow() {
-    return !!this.currentUser && !!this.data && this.args.outletArgs?.showFooter;
+    return !!this.currentUser;
+  }
+
+  get errorLabel() {
+    return i18n(themePrefix("online_users.error"));
   }
 
   get visibleUsers() {
@@ -95,13 +100,16 @@ export default class OnlineUsers extends Component {
       return;
     }
     const data = await loadOnlineUsers();
+    if (this.isDestroying || this.isDestroyed) {
+      return;
+    }
     if (!data) {
+      this.failed = !this.data;
       return;
     }
     cache = { time: Date.now(), data };
-    if (!this.isDestroying && !this.isDestroyed) {
-      this.data = data;
-    }
+    this.failed = false;
+    this.data = data;
   }
 
   <template>
@@ -112,8 +120,14 @@ export default class OnlineUsers extends Component {
             <span class="cs-online__dot"></span>
             {{this.title}}
           </h2>
-          <span class="cs-online__count">{{this.countLabel}}</span>
+          {{#if this.data}}
+            <span class="cs-online__count">{{this.countLabel}}</span>
+          {{/if}}
         </div>
+
+        {{#if this.failed}}
+          <p class="cs-online__error">{{this.errorLabel}}</p>
+        {{/if}}
 
         <ul class="cs-online__list">
           {{#each this.visibleUsers key="id" as |user|}}
