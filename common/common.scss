@@ -1065,3 +1065,42 @@ textarea,
     animation: none;
   }
 }
+
+// ---------- Seitenleiste: "Ungelesene Beiträge" ----------
+// Ganz oben im Community-Bereich, nur sichtbar, solange es einen Zähler gibt
+.sidebar-section-content:has(> [data-list-item-name="cs-unread"]) {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-section-link-wrapper[data-list-item-name="cs-unread"] {
+  order: -1;
+
+  &:not(:has(.sidebar-section-link-content-badge)) {
+    display: none;
+  }
+
+  .sidebar-section-link {
+    background: rgba(var(--tertiary-rgb), 0.1);
+    color: var(--primary);
+    font-weight: 600;
+
+    &:hover,
+    &.active {
+      background: rgba(var(--tertiary-rgb), 0.18);
+    }
+
+    .sidebar-section-link-prefix .d-icon {
+      color: var(--tertiary);
+    }
+  }
+
+  .sidebar-section-link-content-badge {
+    padding: 0.05em 0.55em;
+    border-radius: 999px;
+    background: var(--tertiary);
+    color: var(--secondary);
+    font-size: var(--font-down-1);
+    font-weight: 700;
+  }
+}

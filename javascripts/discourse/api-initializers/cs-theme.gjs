@@ -3,8 +3,13 @@ import ServerBanner from "../components/server-banner";
 import OnlineUsers from "../components/online-users";
 import TeamOnline from "../components/team-online";
 import startTeamHeartbeat from "../lib/team-heartbeat";
+import createUnreadSectionLink from "../lib/unread-section-link";
 
 export default apiInitializer((api) => {
+  if (settings.sidebar_unread_link) {
+    api.addCommunitySectionLink(createUnreadSectionLink);
+  }
+
   if (settings.show_online_users) {
     // In der Seitenleiste unter den Kategorien
     api.renderInOutlet("after-sidebar-sections", OnlineUsers);

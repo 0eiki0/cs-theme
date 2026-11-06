@@ -159,6 +159,16 @@ online_users_max:
   max: 200
   description: "Maximale Anzahl angezeigter Avatare (0 = alle). Weitere erscheinen als „+X“."
 
+sidebar_unread_link:
+  type: bool
+  default: true
+  description: "In der Seitenleiste ganz oben einen Punkt „Ungelesene Beiträge“ mit Zähler anzeigen, sobald es neue Themen oder ungelesene Beiträge gibt."
+
+sidebar_unread_link_text:
+  type: string
+  default: "Ungelesene Beiträge"
+  description: "Beschriftung des Punkts in der Seitenleiste."
+
 highlight_unread:
   type: bool
   default: true
