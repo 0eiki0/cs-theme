@@ -94,7 +94,7 @@ Die Box zeigt Mitglieder der unter `team_sections` eingetragenen Gruppen, die in
 
 In der Seitenleiste unter den Kategorien zeigt eine Box alle Nutzer, die in den letzten `online_users_minutes`
 Minuten im Forum aktiv waren, als Avatare (Klick öffnet die Benutzerkarte). Die Daten
-kommen aus der automatischen Gruppe `trust_level_0`, in der alle Nutzer sind.
+kommen aus der automatischen Gruppe „Vertrauensstufe 0“ (`trust_level_0`, ID 10), in der alle Nutzer sind.
 
 - Nur für **angemeldete** Nutzer sichtbar (Gäste dürfen die Liste nicht abrufen).
 - Nutzer mit „Profil und Präsenz verbergen“ erscheinen nicht.

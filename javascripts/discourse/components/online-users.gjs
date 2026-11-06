@@ -7,17 +7,25 @@ import { ajax } from "discourse/lib/ajax";
 import { i18n } from "discourse-i18n";
 
 const REFRESH_MS = 60 * 1000;
-// Automatische Gruppe, in der alle Nutzer sind. Angemeldete Nutzer dürfen
-// ihre Mitgliederliste (inkl. "zuletzt gesehen") abrufen.
-const ALL_USERS_GROUP = "trust_level_0";
+// Automatische Gruppe "trust_level_0" (ID 10), in der alle Nutzer sind.
+// Angemeldete Nutzer dürfen ihre Mitgliederliste (inkl. "zuletzt gesehen")
+// abrufen. Discourse übersetzt den Namen in die Forensprache (z. B.
+// "Vertrauensstufe_0"), daher wird er über die ID ermittelt.
+const ALL_USERS_GROUP_ID = 10;
+
+function allUsersGroupName(site) {
+  const group = (site.groups || []).find((g) => g.id === ALL_USERS_GROUP_ID);
+  return group?.name || "trust_level_0";
+}
 const FETCH_LIMIT = 200;
 let cache = null;
 
-async function loadOnlineUsers() {
+async function loadOnlineUsers(site) {
   const cutoff =
     Date.now() - Math.max(1, settings.online_users_minutes || 5) * 60 * 1000;
   try {
-    const result = await ajax(`/groups/${ALL_USERS_GROUP}/members.json`, {
+    const groupName = encodeURIComponent(allUsersGroupName(site));
+    const result = await ajax(`/groups/${groupName}/members.json`, {
       data: { order: "last_seen_at", limit: FETCH_LIMIT },
     });
     const members = result?.members || [];
@@ -41,6 +49,7 @@ async function loadOnlineUsers() {
 
 export default class OnlineUsers extends Component {
   @service currentUser;
+  @service site;
 
   @tracked data = cache?.data ?? null;
   @tracked failed = false;
@@ -99,7 +108,7 @@ export default class OnlineUsers extends Component {
       this.data = cache.data;
       return;
     }
-    const data = await loadOnlineUsers();
+    const data = await loadOnlineUsers(this.site);
     if (this.isDestroying || this.isDestroyed) {
       return;
     }
