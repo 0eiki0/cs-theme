@@ -1,4 +1,5 @@
 import { tracked } from "@glimmer/tracking";
+import { withScheme } from "./calendar-scheme";
 
 // Termine aus dem Kalender (cs-cal) für Banner und Box "Nächste Termine".
 //
@@ -105,13 +106,14 @@ class CalendarFeed {
     if (!this.baseUrl) {
       return null;
     }
+    // Mit ?scheme=…, damit der Kalender hell/dunkel wie das Forum ist
     if (this.role === "team") {
-      return `${this.baseUrl}/team`;
+      return withScheme(`${this.baseUrl}/team`);
     }
     if (this.role === "buddy") {
-      return `${this.baseUrl}/buddy`;
+      return withScheme(`${this.baseUrl}/buddy`);
     }
-    return `${this.baseUrl}/`;
+    return withScheme(`${this.baseUrl}/`);
   }
 
   /** Kalender im Forum öffnen (großes Fenster) */

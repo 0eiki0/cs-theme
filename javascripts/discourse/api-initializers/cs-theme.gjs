@@ -10,6 +10,7 @@ import UpcomingEvents from "../components/upcoming-events";
 import CalendarModal from "../components/calendar-modal";
 import createCalendarSectionLink from "../lib/calendar-section-link";
 import calendarFeed, { normalizeCalendarUrl } from "../lib/calendar-feed";
+import { watchScheme, withScheme } from "../lib/calendar-scheme";
 
 // calendar_groups: leer = alle Angemeldeten. Einträge können Gruppennamen
 // oder IDs sein (je nach Discourse-Version speichert die Auswahl das eine
@@ -40,15 +41,23 @@ function setupCalendar(api) {
   api.decorateCookedElement(
     (element) => {
       element.querySelectorAll("iframe").forEach((iframe) => {
-        if ((iframe.getAttribute("src") || "").startsWith(`${origin}/`)) {
+        const src = iframe.getAttribute("src") || "";
+        if (src.startsWith(`${origin}/`)) {
           iframe.classList.add("cs-cal-frame");
+          // Hell/Dunkel wie das Forum
+          if (!/[?&]scheme=/.test(src)) {
+            iframe.setAttribute("src", withScheme(src));
+          }
         }
       });
     },
     { id: "cs-calendar-frames" }
   );
 
-  // … und ihre Höhe an den Inhalt anpassen (meldet der Kalender selbst).
+  // Wechsel zwischen hell und dunkel an offene Kalender weitergeben
+  watchScheme(origin);
+
+  // Höhe eingebetteter Kalender an den Inhalt anpassen (meldet der Kalender selbst).
   window.addEventListener("message", (event) => {
     const data = event.data;
     if (
