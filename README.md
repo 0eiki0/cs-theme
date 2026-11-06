@@ -78,6 +78,7 @@ und löschen.
 | Icon | Optional – Icon-Auswahl mit Vorschau und Suche über alle Font-Awesome-Icons inkl. Marken-Logos (Discord, YouTube, TeamSpeak …). Wird automatisch geladen. |
 | Stil | `standard` (grau) oder `hervorgehoben` (grün) |
 | In neuem Tab öffnen | für externe Links empfohlen |
+| Sichtbar für Gruppen | Optional: nur Mitglieder dieser Gruppen sehen den Button (leer = alle) |
 
 **Beispiel:** Discord → Link `https://discord.gg/…`, Icon „discord“, neuer Tab ✓ ·
 Regeln → Link `/t/regeln/12`, Icon „book“.

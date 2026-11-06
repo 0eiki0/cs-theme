@@ -86,6 +86,8 @@ banner_buttons:
       new_tab:
         type: boolean
         default: false
+      groups:
+        type: groups
 
 show_team_online:
   type: bool

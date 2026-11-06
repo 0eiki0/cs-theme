@@ -20,6 +20,9 @@ en:
               description: "standard = grey, hervorgehoben = green (highlighted)."
             new_tab:
               label: "Open in new tab"
+            groups:
+              label: "Visible to groups (optional)"
+              description: "Empty = everyone sees the button. Otherwise only members of the selected groups. “everyone” = all, “logged_in_users” = all logged-in users, “anonymous_users” = guests only."
       team_sections:
         description: "Groups shown in the “Team Online” box. Reorder via drag & drop. Members of several groups only appear in the topmost one."
         schema:

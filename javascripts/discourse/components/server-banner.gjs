@@ -90,6 +90,7 @@ function normalizeUrl(value) {
 
 export default class ServerBanner extends Component {
   @service router;
+  @service currentUser;
 
   @tracked copied = false;
   @tracked status = statusCache?.data ?? null;
@@ -161,8 +162,28 @@ export default class ServerBanner extends Component {
         icon: typeof b?.icon === "string" ? b.icon.trim() : "",
         primary: b?.style === "hervorgehoben",
         newTab: !!b?.new_tab,
+        groups: b?.groups,
       }))
-      .filter((b) => b.label && b.url);
+      .filter((b) => b.label && b.url && this.canSee(b.groups));
+  }
+
+  // Leer = für alle sichtbar. Automatische Gruppen ohne echte Mitgliedschaft:
+  // 0 = jeder, 4 = anonyme Benutzer (Gäste), 5 = angemeldete Benutzer.
+  // Hinweis: Das blendet den Button nur aus – der Link selbst ist nicht geschützt.
+  canSee(groups) {
+    const ids = [].concat(groups ?? []).map((id) => parseInt(id, 10));
+    if (ids.length === 0 || ids.includes(0)) {
+      return true;
+    }
+    const user = this.currentUser;
+    if (!user) {
+      return ids.includes(4);
+    }
+    if (ids.includes(5)) {
+      return true;
+    }
+    const memberOf = new Set((user.groups || []).map((g) => g.id));
+    return ids.some((id) => memberOf.has(id));
   }
 
   get showStatus() {
