@@ -574,7 +574,10 @@ textarea,
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.5rem;
+    // Rechtsbündig – auch wenn die Buttons in eine eigene Zeile umbrechen
+    margin-left: auto;
   }
 
   &__btn {
