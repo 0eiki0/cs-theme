@@ -162,7 +162,7 @@ online_users_max:
 highlight_unread:
   type: bool
   default: true
-  description: "Neue und ungelesene Themen in den Listen hervorheben (grüner Rand, fette Titel); bereits gelesene Themen werden dezenter dargestellt."
+  description: "Neues hervorheben: ungelesene Themen in den Listen, ungelesene Beiträge in Themen („Neu“), ungelesene Benachrichtigungen im Menü und den Zähler am Avatar. Gelesenes wird dezenter dargestellt."
 
 corner_radius:
   type: integer

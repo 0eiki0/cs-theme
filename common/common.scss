@@ -260,6 +260,107 @@ textarea,
   }
 }
 
+// ---------- Neue Beiträge, Benachrichtigungen und Zähler hervorheben ----------
+@if $highlight_unread == true {
+  // Ungelesene Beiträge im Thema: grüner Rand + Hinweis "Neu".
+  // Discourse setzt .read an .read-state, sobald der Beitrag gelesen wurde –
+  // die Hervorhebung blendet dann aus.
+  .topic-post .topic-body {
+    transition:
+      background 600ms ease,
+      box-shadow 600ms ease;
+  }
+
+  .topic-post:has(.read-state:not(.read)) .topic-body {
+    background: rgba(var(--tertiary-rgb), 0.05);
+    box-shadow: inset 3px 0 0 var(--tertiary);
+    border-radius: 0 var(--cs-radius-sm) var(--cs-radius-sm) 0;
+  }
+
+  .topic-post .read-state:not(.read) {
+    display: inline-flex;
+    align-items: center;
+
+    .d-icon {
+      display: none;
+    }
+
+    &::after {
+      content: "Neu";
+      padding: 0.1em 0.55em;
+      border-radius: 999px;
+      background: var(--tertiary);
+      color: var(--secondary);
+      font-size: var(--font-down-2);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+  }
+
+  // Benachrichtigungsmenü (Avatar oben rechts)
+  .user-menu li.notification {
+    &.unread {
+      background: rgba(var(--tertiary-rgb), 0.08);
+      box-shadow: inset 3px 0 0 var(--tertiary);
+
+      .item-label {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .item-description {
+        color: var(--primary-high);
+      }
+    }
+
+    &.read {
+      .item-label,
+      .item-description {
+        color: var(--primary-medium);
+      }
+    }
+  }
+
+  // Zähler im Benachrichtigungsmenü (Reiter links)
+  .user-menu .tabs-list .badge-notification {
+    background: var(--tertiary);
+    color: var(--secondary);
+    font-weight: 700;
+  }
+
+  // Zähler am Avatar in der Kopfzeile
+  .d-header .header-dropdown-toggle .badge-notification {
+    &.unread-notifications,
+    &.new-pms,
+    &.new-reviewables {
+      border: 2px solid var(--header_background);
+      font-weight: 700;
+      animation: cs-badge-pulse 2s ease-in-out infinite;
+    }
+
+    &.unread-notifications {
+      background: var(--tertiary);
+      color: var(--secondary);
+    }
+  }
+}
+
+@keyframes cs-badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--tertiary-rgb), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(var(--tertiary-rgb), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d-header .header-dropdown-toggle .badge-notification {
+    animation: none !important;
+  }
+}
+
 // ---------- Kategorien ----------
 .badge-category__wrapper .badge-category {
   font-weight: 500;

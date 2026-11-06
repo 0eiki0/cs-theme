@@ -53,7 +53,7 @@ Voraussetzung: **Discourse 2026.8.0 oder neuer** (wegen der Icon-Auswahl in den 
 | `online_users_title` | Überschrift der Box |
 | `online_users_minutes` | Als online gilt, wer in den letzten X Minuten aktiv war |
 | `online_users_max` | Maximale Anzahl Avatare, Rest als „+X“ |
-| `highlight_unread` | Ungelesene Themen hervorheben, gelesene dezenter darstellen |
+| `highlight_unread` | Neues hervorheben: ungelesene Themen, ungelesene Beiträge („Neu“), ungelesene Benachrichtigungen und Zähler am Avatar |
 | `corner_radius` | Eckenradius in px (0–24) |
 | `pixel_accent` | Gras-Block-Kante unter dem Banner |
 
