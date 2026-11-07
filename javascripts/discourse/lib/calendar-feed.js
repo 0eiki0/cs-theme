@@ -9,6 +9,11 @@ import { withScheme } from "./calendar-scheme";
 // die dieser Nutzer laut seinen Gruppen sehen darf.
 
 const MAX_EVENTS = 50;
+// So lange auf eine Antwort der Kalender-Seite warten (inkl. stillem Login)
+const WATCHDOG_MS = 20 * 1000;
+const RETRY_DELAYS_MS = [15 * 1000, 60 * 1000, 5 * 60 * 1000, 10 * 60 * 1000];
+// Daten gelten nach dieser Zeit als veraltet (z. B. nach Standby)
+const STALE_MS = 5 * 60 * 1000;
 
 function isValidEvent(ev) {
   return (
@@ -45,6 +50,13 @@ class CalendarFeed {
   started = false;
   origin = null;
   baseUrl = null;
+  frame = null;
+  roleKey = null;
+  failures = 0;
+  lastLoad = 0;
+  lastUpdate = 0;
+  retryTimer = null;
+  watchdog = null;
   // Wird im Initializer gesetzt (braucht den Modal-Service)
   openHandler = null;
 
@@ -61,7 +73,7 @@ class CalendarFeed {
     }
   }
 
-  start(url) {
+  start(url, username) {
     const baseUrl = CalendarFeed.normalizeUrl(url);
     if (this.started || !baseUrl) {
       return;
@@ -69,18 +81,70 @@ class CalendarFeed {
     this.started = true;
     this.baseUrl = baseUrl;
     this.origin = new URL(baseUrl).origin;
+    this.roleKey = `cs_calendar_role_${username || ""}`;
+
+    // Zuletzt bekannte Rolle sofort anwenden, damit der Punkt "Kalender"
+    // nicht erst nach dem Laden erscheint (wird gleich danach geprüft).
+    try {
+      const cachedRole = localStorage.getItem(this.roleKey);
+      if (cachedRole === "team" || cachedRole === "buddy") {
+        this.applyRole(cachedRole);
+      }
+    } catch {
+      // localStorage gesperrt
+    }
 
     window.addEventListener("message", this.onMessage);
+    document.addEventListener("visibilitychange", this.onVisible);
+    window.addEventListener("online", () => this.reload());
+
+    this.reload();
+    setInterval(() => (this.now = Date.now()), 60 * 1000);
+  }
+
+  /** Lädt die unsichtbare Kalender-Seite (neu) */
+  reload() {
+    clearTimeout(this.retryTimer);
+    clearTimeout(this.watchdog);
+    this.frame?.remove();
 
     const iframe = document.createElement("iframe");
-    iframe.src = `${baseUrl}/embed`;
+    // Zeitstempel verhindert, dass ein Browser eine alte Antwort wiederverwendet
+    iframe.src = `${this.baseUrl}/embed?t=${Date.now()}`;
     iframe.title = "Kalender";
     iframe.className = "cs-cal-feed";
     iframe.tabIndex = -1;
     iframe.setAttribute("aria-hidden", "true");
     document.body.appendChild(iframe);
+    this.frame = iframe;
+    this.lastLoad = Date.now();
 
-    setInterval(() => (this.now = Date.now()), 60 * 1000);
+    // Keine Antwort (z. B. Netzwerk weg, Server neu gestartet) -> erneut versuchen
+    this.watchdog = setTimeout(() => this.retryLater(), WATCHDOG_MS);
+  }
+
+  /** Erneuter Versuch mit wachsendem Abstand: 15 s, 1 min, 5 min, dann alle 10 min */
+  retryLater() {
+    clearTimeout(this.retryTimer);
+    const delay = RETRY_DELAYS_MS[Math.min(this.failures, RETRY_DELAYS_MS.length - 1)];
+    this.failures++;
+    this.retryTimer = setTimeout(() => this.reload(), delay);
+  }
+
+  // Zurück im Tab (z. B. morgens nach dem Standby): veraltete Daten auffrischen
+  onVisible = () => {
+    if (
+      document.visibilityState === "visible" &&
+      Date.now() - (this.lastUpdate || 0) > STALE_MS
+    ) {
+      this.reload();
+    }
+  };
+
+  applyRole(role) {
+    this.role = role;
+    // Blendet u. a. den Seitenleisten-Punkt "Kalender" ein
+    document.body.classList.toggle("cs-has-calendar", role !== null);
   }
 
   onMessage = (event) => {
@@ -88,17 +152,47 @@ class CalendarFeed {
       return;
     }
     const data = event.data;
-    if (!data || data.version !== 1 || data.type !== "cscal:events") {
+    if (!data || data.version !== 1) {
       return;
     }
-    this.role = data.role === "team" || data.role === "buddy" ? data.role : null;
+    if (data.type === "cscal:error") {
+      clearTimeout(this.watchdog);
+      this.retryLater();
+      return;
+    }
+    if (data.type !== "cscal:events") {
+      return;
+    }
+    clearTimeout(this.watchdog);
+
+    const role = data.role === "team" || data.role === "buddy" ? data.role : null;
+
+    // Ohne Rolle, aber nicht wegen fehlender Rechte (Login hakte, Sitzung
+    // abgelaufen, Cookie blockiert): bisherigen Stand behalten, später erneut.
+    if (!role && data.reason && data.reason !== "no_access") {
+      this.loaded = true;
+      this.retryLater();
+      return;
+    }
+
+    this.failures = 0;
+    this.lastUpdate = Date.now();
+    this.applyRole(role);
     this.events = Array.isArray(data.events)
       ? data.events.filter(isValidEvent).slice(0, MAX_EVENTS).map(cleanEvent)
       : [];
     this.loaded = true;
     this.now = Date.now();
-    // Blendet u. a. den Seitenleisten-Punkt "Kalender" ein
-    document.body.classList.toggle("cs-has-calendar", this.role !== null);
+
+    try {
+      if (role) {
+        localStorage.setItem(this.roleKey, role);
+      } else {
+        localStorage.removeItem(this.roleKey);
+      }
+    } catch {
+      // egal
+    }
   };
 
   /** Kalender-Seite passend zur Rolle; vor der ersten Antwort die Startseite (leitet selbst weiter) */

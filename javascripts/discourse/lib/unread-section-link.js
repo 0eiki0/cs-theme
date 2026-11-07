@@ -1,13 +1,14 @@
 import { tracked } from "@glimmer/tracking";
 import { service } from "@ember/service";
-import { ajax } from "discourse/lib/ajax";
+import unreadCounter from "./unread-counter";
 
 // Seitenleisten-Link "Ungelesene Beiträge" ganz oben im Community-Bereich.
 //
 // Zwei Modi (Einstellung sidebar_unread_mode):
 // - "alle": wie in klassischen Foren – alle Themen mit Beiträgen, die man noch
 //   nicht gelesen hat, egal ob man das Thema verfolgt oder je geöffnet hat.
-//   Nutzt die Discourse-Liste /unseen; der Zähler wird regelmäßig abgefragt.
+//   Nutzt die Discourse-Liste /unseen; der Zähler aktualisiert sich live
+//   (siehe unread-counter.js, wird im Initializer gestartet).
 // - "verfolgt": Discourse-Standard – neue Themen plus ungelesene Antworten in
 //   verfolgten/beobachteten Themen (Zähler live aus topicTrackingState).
 //
@@ -15,9 +16,6 @@ import { ajax } from "discourse/lib/ajax";
 // Link sofort erscheint/verschwindet, ist er für angemeldete Nutzer immer
 // vorhanden und wird per CSS ausgeblendet, solange er keinen Zähler hat
 // (siehe common.scss, data-list-item-name="cs-unread").
-
-const POLL_MS = 60 * 1000;
-const CHANGE_DEBOUNCE_MS = 5 * 1000;
 
 function allMode() {
   return settings.sidebar_unread_mode !== "verfolgt";
@@ -30,32 +28,16 @@ export default function createUnreadSectionLink(BaseSectionLink) {
 
     @tracked totalUnread = 0;
     @tracked totalNew = 0;
-    @tracked unseenCount = 0;
-    @tracked unseenHasMore = false;
-
-    pollTimer = null;
-    debounceTimer = null;
 
     constructor() {
       super(...arguments);
-      if (!this.currentUser) {
-        return;
-      }
-      if (allMode()) {
-        this.loadUnseen();
-        this.pollTimer = setInterval(() => {
-          if (document.visibilityState === "visible") {
-            this.loadUnseen();
-          }
-        }, POLL_MS);
-      } else {
+      if (!allMode()) {
         this.refreshCounts();
       }
     }
 
     teardown() {
-      clearInterval(this.pollTimer);
-      clearTimeout(this.debounceTimer);
+      // Der Zähler läuft unabhängig vom Link weiter (unread-counter.js)
     }
 
     get name() {
@@ -77,10 +59,12 @@ export default function createUnreadSectionLink(BaseSectionLink) {
     // Leer = Link ausgeblendet (CSS)
     get badgeText() {
       if (allMode()) {
-        if (this.unseenCount <= 0) {
+        if (unreadCounter.count <= 0) {
           return undefined;
         }
-        return this.unseenHasMore ? `${this.unseenCount}+` : String(this.unseenCount);
+        return unreadCounter.hasMore
+          ? `${unreadCounter.count}+`
+          : String(unreadCounter.count);
       }
       const total = this.totalUnread + this.totalNew;
       return total > 0 ? String(total) : undefined;
@@ -103,29 +87,16 @@ export default function createUnreadSectionLink(BaseSectionLink) {
     }
 
     onTopicTrackingStateChange() {
-      if (!allMode()) {
+      if (allMode()) {
+        unreadCounter.scheduleRefresh();
+      } else {
         this.refreshCounts();
-        return;
       }
-      // Neue Beiträge oder gelesene Themen → Zähler zeitnah neu abfragen
-      clearTimeout(this.debounceTimer);
-      this.debounceTimer = setTimeout(() => this.loadUnseen(), CHANGE_DEBOUNCE_MS);
     }
 
     refreshCounts() {
       this.totalUnread = this.topicTrackingState.countUnread();
       this.totalNew = this.topicTrackingState.countNew();
-    }
-
-    async loadUnseen() {
-      try {
-        const result = await ajax("/unseen.json");
-        const list = result?.topic_list;
-        this.unseenCount = list?.topics?.length || 0;
-        this.unseenHasMore = !!list?.more_topics_url;
-      } catch {
-        // Zähler ist optional – beim nächsten Mal erneut versuchen
-      }
     }
   };
 }

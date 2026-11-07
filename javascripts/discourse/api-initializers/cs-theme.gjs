@@ -5,6 +5,7 @@ import TeamOnline from "../components/team-online";
 import startTeamHeartbeat from "../lib/team-heartbeat";
 import setupGuestPopup from "../lib/guest-popup";
 import createUnreadSectionLink from "../lib/unread-section-link";
+import unreadCounter from "../lib/unread-counter";
 import CalendarBanner from "../components/calendar-banner";
 import UpcomingEvents from "../components/upcoming-events";
 import CalendarModal from "../components/calendar-modal";
@@ -86,7 +87,7 @@ function setupCalendar(api) {
     return;
   }
 
-  calendarFeed.start(calendarUrl);
+  calendarFeed.start(calendarUrl, user.username);
 
   // Kalender als großes Fenster im Forum öffnen
   const modal = api.container.lookup("service:modal");
@@ -148,6 +149,15 @@ export default apiInitializer((api) => {
 
   if (settings.sidebar_unread_link) {
     api.addCommunitySectionLink(createUnreadSectionLink);
+
+    // Zähler im Modus "alle" sofort starten und live halten
+    if (api.getCurrentUser() && settings.sidebar_unread_mode !== "verfolgt") {
+      unreadCounter.start({
+        messageBus: api.container.lookup("service:message-bus"),
+        topicTrackingState: api.container.lookup("service:topic-tracking-state"),
+        router: api.container.lookup("service:router"),
+      });
+    }
   }
 
   // In der Liste "Ungesehen" ist jedes Thema ungelesen. Discourse liefert für
