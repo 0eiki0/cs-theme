@@ -27,6 +27,17 @@
   --d-nav-pill-border-radius: var(--cs-radius-sm);
 }
 
+// Hover- und Auswahlfarbe für Menüs, Listen und Dropdowns.
+// Discourse setzt hier feste helle Standardwerte (#f2f2f2, #d1f0ff) – auch im
+// dunklen Schema, dann ist helle Schrift auf hellem Grund nicht lesbar.
+// Deshalb aus den Farben des gerade aktiven Schemas mischen: passt in
+// "CS Hell" und "CS Dunkel" (und bei jeder späteren Farbänderung).
+:root {
+  --d-hover: color-mix(in srgb, var(--primary) 8%, var(--secondary));
+  --d-selected: color-mix(in srgb, var(--tertiary) 16%, var(--secondary));
+  --d-selected-hover: color-mix(in srgb, var(--tertiary) 24%, var(--secondary));
+}
+
 // Dunkles Farbschema → etwas kräftigere Schatten
 @if dark-light-choose(1, 2) == 2 {
   :root {
