@@ -33,6 +33,28 @@ de:
             title:
               label: "Überschrift (optional)"
               description: "Leer = vollständiger Name der Gruppe."
+      embedded_pages:
+        description: "Externe Seiten (z. B. das Webinterface), die sich wie der Kalender als Fenster im Forum öffnen."
+        schema:
+          properties:
+            label:
+              label: "Beschriftung"
+              description: "Name in der Seitenleiste bzw. Tooltip des Buttons, z. B. „Webinterface“."
+            url:
+              label: "Adresse"
+              description: "z. B. https://webinterface.cubeside.de/"
+            icon:
+              label: "Icon"
+              description: "Icon für Seitenleiste und Kopfzeile. Leer = Pfeil-Symbol."
+            position:
+              label: "Wo anzeigen"
+              description: "seitenleiste = Punkt in der Seitenleiste, kopfzeile = Button rechts oben neben Suche und Avatar, beides = beides."
+            open_in:
+              label: "Öffnen als"
+              description: "fenster = großes Fenster im Forum (die Seite muss Einbetten erlauben), neuer_tab = in neuem Browser-Tab."
+            groups:
+              label: "Sichtbar für Gruppen (optional)"
+              description: "Leer = alle Angemeldeten. Sonst nur Mitglieder der gewählten Gruppen. Blendet nur den Button aus – die Seite muss ihren Zugang selbst schützen."
   banner:
     copy_ip: "IP kopieren"
     copied: "Kopiert!"

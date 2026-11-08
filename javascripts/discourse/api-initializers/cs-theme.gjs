@@ -10,6 +10,17 @@ import CalendarBanner from "../components/calendar-banner";
 import UpcomingEvents from "../components/upcoming-events";
 import CalendarModal from "../components/calendar-modal";
 import createCalendarSectionLink from "../lib/calendar-section-link";
+import PageModal from "../components/page-modal";
+import HeaderPageButton from "../components/header-page-button";
+import createPageSectionLink from "../lib/page-section-link";
+import {
+  canSeePage,
+  embeddedPages,
+  inHeader,
+  inSidebar,
+  openPage,
+  setPageOpener,
+} from "../lib/embedded-pages";
 import calendarFeed, { normalizeCalendarUrl } from "../lib/calendar-feed";
 import { watchScheme, withScheme } from "../lib/calendar-scheme";
 
@@ -28,6 +39,52 @@ function inCalendarGroups(user) {
     (group) =>
       wanted.includes(String(group.id)) ||
       wanted.includes(String(group.name || "").toLowerCase())
+  );
+}
+
+// Externe Seiten (embedded_pages) als Fenster im Forum, über Seitenleiste
+// und/oder einen Button rechts oben in der Kopfzeile.
+function setupEmbeddedPages(api) {
+  const user = api.getCurrentUser();
+  const pages = embeddedPages().filter((page) => canSeePage(page, user));
+  if (pages.length === 0) {
+    return;
+  }
+
+  const modal = api.container.lookup("service:modal");
+  setPageOpener((page) => modal.show(PageModal, { model: { page } }));
+
+  for (const page of pages) {
+    if (inSidebar(page)) {
+      api.addCommunitySectionLink(createPageSectionLink(page));
+    }
+    if (inHeader(page)) {
+      api.headerIcons.add(
+        page.key,
+        <template><HeaderPageButton @page={{page}} /></template>,
+        { before: "search" }
+      );
+    }
+  }
+
+  // Klick auf einen Seitenleisten-Punkt abfangen, bevor Discourse navigiert
+  document.addEventListener(
+    "click",
+    (event) => {
+      const link = event.target.closest?.('[data-list-item-name^="cs-page-"] a');
+      if (!link || event.button !== 0 || event.ctrlKey || event.metaKey) {
+        return;
+      }
+      const name = link.closest("[data-list-item-name]")?.dataset.listItemName;
+      const page = pages.find((p) => p.key === name);
+      if (!page) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      openPage(page);
+    },
+    true
   );
 }
 
@@ -173,6 +230,7 @@ export default apiInitializer((api) => {
   });
 
   setupCalendar(api);
+  setupEmbeddedPages(api);
 
   if (settings.show_online_users) {
     // In der Seitenleiste unter den Kategorien

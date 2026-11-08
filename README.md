@@ -12,6 +12,7 @@ Ein modernes, schlichtes Theme für Discourse mit dezentem Minecraft-Touch.
   - **Frei konfigurierbare Buttons** (Discord, Regeln, Shop …) mit Icon-Auswahl
   - Dezente **Pixel-Kante** in Gras-Block-Optik (abschaltbar)
 - **Kalender** (mit [cs-cal](https://github.com/0eiki0/cs-cal)): Hinweis-Banner vor Terminen, Box „Nächste Termine“, eingebettete Kalender mit automatischer Höhe
+- **Externe Seiten im Forum** (z. B. Webinterface): als Fenster wie der Kalender, über Seitenleiste oder Button oben rechts
 - **Team Online:** Box rechts neben der Themenliste mit allen Teammitgliedern, die gerade im Forum aktiv sind
 - Glasiger, schlanker Header, ruhige Themenliste, abgerundete Karten
 - Einheitliche Eckenradien (einstellbar), sanfte Hover-Effekte, Fokus-Ringe
@@ -117,6 +118,34 @@ entscheidet anhand ihrer **Forum-Gruppen**, welche Termine sie sehen
 Die Termine werden über eine unsichtbare Seite des Kalenders geladen (einmal pro
 Seitenaufruf, danach alle 5 Minuten). Nutzer ohne Kalender-Zugriff sehen nichts.
 Die frühere Theme-Komponente „Kalender“ aus cs-cal wird damit nicht mehr gebraucht.
+
+## Externe Seiten (z. B. Webinterface)
+
+In der Einstellung `embedded_pages` beliebige Seiten eintragen. Pro Seite:
+
+| Feld | Bedeutung |
+|---|---|
+| Beschriftung | z. B. „Webinterface“ |
+| Adresse | z. B. `https://webinterface.cubeside.de/` |
+| Icon | Symbol für Seitenleiste/Kopfzeile |
+| Wo anzeigen | `seitenleiste`, `kopfzeile` (Button rechts oben neben Suche und Avatar) oder `beides` |
+| Öffnen als | `fenster` (großes Fenster im Forum, wie der Kalender) oder `neuer_tab` |
+| Gruppen | leer = alle Angemeldeten, sonst nur Mitglieder dieser Gruppen |
+
+**Wichtig für „fenster“:** Die Seite muss das Einbetten erlauben. Prüfen mit:
+
+```bash
+curl -sI https://webinterface.cubeside.de/ | grep -iE "x-frame-options|content-security-policy"
+```
+
+Steht dort `X-Frame-Options: DENY` oder `SAMEORIGIN`, oder eine
+`frame-ancestors`-Regel ohne `https://cubeside.de`, blockiert der Browser das
+Fenster. Dann entweder auf der Seite selbst
+`Content-Security-Policy: frame-ancestors 'self' https://cubeside.de` setzen
+(und `X-Frame-Options` entfernen) oder „neuer_tab“ wählen.
+
+Die Gruppen-Auswahl blendet nur den Button aus. Die Seite selbst muss ihren
+Zugang weiterhin selbst schützen (z. B. eigenes Login).
 
 ## Team Online
 

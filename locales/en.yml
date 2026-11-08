@@ -33,6 +33,24 @@ en:
             title:
               label: "Heading (optional)"
               description: "Empty = the group's full name."
+      embedded_pages:
+        description: "External pages (e.g. the web interface) that open as a large window inside the forum, like the calendar."
+        schema:
+          properties:
+            label:
+              label: "Label"
+            url:
+              label: "URL"
+            icon:
+              label: "Icon"
+            position:
+              label: "Where to show"
+              description: "seitenleiste = sidebar, kopfzeile = header button (top right), beides = both."
+            open_in:
+              label: "Open as"
+              description: "fenster = window inside the forum (the page must allow embedding), neuer_tab = new browser tab."
+            groups:
+              label: "Visible to groups (optional)"
   banner:
     copy_ip: "Copy IP"
     copied: "Copied!"

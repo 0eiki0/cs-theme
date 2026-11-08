@@ -311,3 +311,39 @@ upcoming_events_mobile:
   type: bool
   default: false
   description: "Box auch in der mobilen Ansicht anzeigen (dann über der Themenliste)."
+
+embedded_pages:
+  type: objects
+  default: []
+  description: "Externe Seiten (z. B. das Webinterface), die sich wie der Kalender als großes Fenster im Forum öffnen. Die Seite muss das Einbetten erlauben, sonst „In neuem Tab“ wählen."
+  schema:
+    name: "Seite"
+    identifier: label
+    properties:
+      label:
+        type: string
+        required: true
+        validations:
+          max_length: 40
+      url:
+        type: string
+        required: true
+        validations:
+          max_length: 500
+      icon:
+        type: icon
+      position:
+        type: enum
+        default: seitenleiste
+        choices:
+          - seitenleiste
+          - kopfzeile
+          - beides
+      open_in:
+        type: enum
+        default: fenster
+        choices:
+          - fenster
+          - neuer_tab
+      groups:
+        type: groups
