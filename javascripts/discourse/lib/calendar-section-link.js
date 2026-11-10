@@ -1,4 +1,5 @@
 import { service } from "@ember/service";
+import calendarFeed, { normalizeCalendarUrl } from "./calendar-feed";
 
 // Punkt "Kalender" in der Seitenleiste (Community-Bereich).
 //
@@ -28,9 +29,15 @@ export default function createCalendarSectionLink(BaseSectionLink) {
       return this.text;
     }
 
-    // Ziel nur für den Fall, dass der Klick nicht abgefangen wird
-    get route() {
-      return "discovery.latest";
+    // Echte Adresse statt einer Forum-Route: So markiert Discourse den Punkt
+    // nicht als aktiv (vorher: zusammen mit "Themen"), und Strg-/Mittelklick
+    // öffnet den Kalender direkt in einem neuen Tab. Ein normaler Klick wird
+    // im Initializer abgefangen und öffnet das Fenster im Forum.
+    get href() {
+      return (
+        calendarFeed.pageUrl ||
+        `${normalizeCalendarUrl(settings.calendar_url) || ""}/`
+      );
     }
 
     get defaultPrefixValue() {

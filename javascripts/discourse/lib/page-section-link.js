@@ -25,9 +25,9 @@ export default function createPageSectionLink(page) {
         return page.label;
       }
 
-      // Ziel nur für den Fall, dass der Klick nicht abgefangen wird
-      get route() {
-        return "discovery.latest";
+      // Echte Adresse statt einer Forum-Route (siehe calendar-section-link.js)
+      get href() {
+        return page.url;
       }
 
       get defaultPrefixValue() {
